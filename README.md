@@ -2,13 +2,31 @@
 
 [![CI](https://github.com/zeineeb33/hypercare-agents/actions/workflows/ci.yml/badge.svg)](https://github.com/zeineeb33/hypercare-agents/actions/workflows/ci.yml)
 
-A multi-agent system that handles support tickets during the **hypercare** phase of a software rollout: the weeks after go-live, when ticket volume spikes and the documentation is still catching up.
+An **agentic RAG** system for support tickets during the **hypercare** phase of a software rollout: the weeks after go-live, when ticket volume spikes and the documentation is still catching up.
 
-It answers from the documentation and the data, never invents a price, lets an independent verification agent veto unsafe answers, and detects recurring questions the documentation cannot answer, then drafts and tests a fix for a human to approve.
+Five agents answer each ticket from the documentation (retrieval-augmented generation with citations) and from the data (SQL), never invent a price, and let a deterministic **guardrail** agent veto unsafe answers. When the same question keeps coming back and the documentation cannot answer it, a maintenance agent drafts and **tests** a documentation fix for a **human** to approve: the knowledge base heals itself.
+
+**Stack:** Claude (Anthropic SDK, structured outputs) · hybrid retrieval (BM25 + optional dense embeddings, RRF) · Python 3.12 · SQLite · Pydantic · Streamlit · pytest · Docker · GitHub Actions · Render
 
 The domain is the pricing platform of a container shipping carrier. **The company (Northwind Shipping), its products (TideRate, QuotePort), the data and the documents are fictional.**
 
 **Live demo:** https://hypercare-agents.onrender.com (free Render instance: the first visit after a period of inactivity can take up to a minute while it wakes up). The demo runs in replay mode: retrieval, SQL and verification run live, the LLM answers were recorded.
+
+## What this project demonstrates
+
+| Topic | How | Code |
+|---|---|---|
+| **Agentic RAG** | The LLM plans the search queries, hybrid retrieval returns document sections, the answer is grounded in them with citations, and the agent **abstains** (`insufficient_evidence`) instead of hallucinating | [`agents/knowledge.py`](src/hypercare/agents/knowledge.py), [`retrieval/`](src/hypercare/retrieval/) |
+| **Hybrid search** | Section-level chunking, BM25, optional dense embeddings (`fastembed`), reciprocal rank fusion | [`retrieval/index.py`](src/hypercare/retrieval/index.py) |
+| **Multi-agent orchestration** | Orchestrator routing five specialised agents, with clarification, escalation and knowledge-gap paths | [`agents/orchestrator.py`](src/hypercare/agents/orchestrator.py) |
+| **Tool use on structured data** | A data agent that follows ticket references through parameterised SQL (quotes, price lines, surcharges, expiry, overlaps, inland rates) | [`agents/data_investigation.py`](src/hypercare/agents/data_investigation.py) |
+| **Guardrails** | Six deterministic checks on every reply, veto power, **fail-closed** design, fault injection in the demo | [`agents/verification.py`](src/hypercare/agents/verification.py) |
+| **Structured outputs** | Every LLM call is validated against a Pydantic schema (`messages.parse`) | [`llm/anthropic_client.py`](src/hypercare/llm/anthropic_client.py) |
+| **LLM evaluation** | 27 scenario-based cases: decision accuracy, citation accuracy, fact accuracy, overrides, latency, cost per ticket | [`evaluation.py`](src/hypercare/evaluation.py) |
+| **Observability** | Every agent step is traced with its inputs, outputs, sources, decision, latency, tokens and cost | [`tracing.py`](src/hypercare/tracing.py), *System* tab |
+| **Human in the loop** | Documentation proposals are tested, reviewed, edited and versioned before publication | [`agents/maintenance.py`](src/hypercare/agents/maintenance.py) |
+| **LLMOps** | Record/replay of LLM calls, prompt caching, server-side refusal fallbacks, cost tracking, model as a setting | [`llm/`](src/hypercare/llm/) |
+| **Software engineering** | 79 tests without network or API key (fake LLM, stub server, Streamlit AppTest), strict mypy, ruff, CI, Docker | [`tests/`](tests/), [`.github/workflows/ci.yml`](.github/workflows/ci.yml) |
 
 ## Architecture
 
@@ -43,6 +61,15 @@ flowchart TD
 | Resolution agent | Claude | Decides `ANSWER` / `ASK_CLARIFICATION` / `ESCALATE` and writes the reply, with the evidence used |
 | Verification agent | Code | Six checks on the proposed reply; a blocking failure turns it into `ESCALATE`. **Fails closed**: if it cannot run, the ticket is escalated |
 | Maintenance agent | Claude + code | Drafts a documentation update for each gap, tests it, stores it for review; approval versions and publishes the document |
+
+### How the RAG works
+
+1. **Chunking.** Each knowledge-base document (guides, business rules, release notes, FAQ, and the transcript of a video tutorial) is split on its `##` sections; every chunk keeps its file name, title, section and document version.
+2. **Query planning.** Claude turns the ticket into one to three keyword queries, one per question in the ticket, in the domain's vocabulary rather than customer names or amounts.
+3. **Hybrid retrieval.** The ticket and the planned queries are run through BM25 (and, with the `embeddings` extra, a dense model fused by reciprocal rank fusion). The best sections across queries are kept; the document linked to the ticket, if any, is always included.
+4. **Grounded generation.** Claude answers from those sections only, cites the file names it used, mentions versions, and sets `insufficient_evidence` when the sections do not fully answer the question.
+5. **Checked citations.** The verification agent blocks any reply that cites a document that was never retrieved, or that answers although the documentation was insufficient and no data supports it.
+6. **Fresh index.** When a documentation proposal is approved, the document gets a new version and the index is rebuilt, so the next ticket retrieves the new section.
 
 ### Verification checks
 
