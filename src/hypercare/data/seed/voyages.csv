@@ -1,0 +1,5 @@
+voyage_id,voyage_code,service_code,vessel_name,departure_date,arrival_date,route_id
+1,NW482E,FAL1,Northwind Aurora,2026-11-28,2027-01-02,1
+2,NW118E,MEX2,Northwind Coral,2026-11-25,2026-12-16,2
+3,NW305W,TAX1,Northwind Meridian,2026-12-03,2026-12-14,3
+4,NW227S,SAX3,Northwind Solstice,2026-12-10,2027-01-01,4

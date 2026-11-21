@@ -1,0 +1,21 @@
+.DS_Store
+__pycache__/
+*.pyc
+.venv/
+.coverage
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Secrets: the API key lives only in .env
+.env
+.env.*
+!.env.example
+
+# Local runtime state
+var/
+reports/
+
+.snowflake/
+# Never commit real documents or exports
+data/private/

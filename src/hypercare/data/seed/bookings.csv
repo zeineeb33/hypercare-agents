@@ -1,0 +1,2 @@
+booking_id,booking_ref,quote_id,voyage_id,booking_date,status,equipment_size,quantity,total_amount
+1,BK-55012,3,1,2026-11-14,CONFIRMED,40HC,2,4300

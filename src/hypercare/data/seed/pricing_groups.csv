@@ -1,0 +1,5 @@
+pg_id,pg_code,pg_name,service_line_code,currency
+1,NEU-ASIA,North Europe to Asia,SL-FAL,USD
+2,MED-ASIA,Mediterranean to Asia,SL-MEX,USD
+3,NEU-SAM,North Europe to South America,SL-SAX,USD
+4,NEU-NAM,North Europe to North America,SL-TAX,USD

@@ -1,0 +1,3 @@
+inland_point,gateway_port,charge_code,amount_20,amount_40,valid_from,valid_to
+FRLIL,FRLEH,INL00,420,560,2026-07-01,2026-12-31
+FRORL,FRLEH,INL00,390,510,2026-07-01,2026-12-31

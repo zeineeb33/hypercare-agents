@@ -1,0 +1,8 @@
+charge_code,description,charge_type,is_active
+BAF,Bunker adjustment factor (fuel),SURCHARGE,1
+CAF,Currency adjustment factor,SURCHARGE,1
+LSS,Low sulphur surcharge,SURCHARGE,1
+PSS,Peak season surcharge,SURCHARGE,1
+HAZ,Hazardous cargo surcharge,SURCHARGE,1
+INL00,Inland pre-carriage (inland point to gateway port),INLAND,1
+INL50,Inland on-carriage (port to inland point),INLAND,1

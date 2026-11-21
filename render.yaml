@@ -1,0 +1,13 @@
+# Render Blueprint: Dashboard -> New -> Blueprint -> select this repository.
+# The public demo runs in replay mode: no API key and no LLM cost.
+services:
+  - type: web
+    name: hypercare-agents
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /_stcore/health
+    autoDeploy: true
+    envVars:
+      - key: HYPERCARE_MODE
+        value: replay

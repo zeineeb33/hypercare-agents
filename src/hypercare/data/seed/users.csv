@@ -1,0 +1,6 @@
+user_id,username,full_name,role,email
+1,lmoreau,Lina Moreau,SALES,lina.moreau@northwind.example
+2,tbecker,Tom Becker,CUSTOMER_SERVICE,tom.becker@northwind.example
+3,aruiz,Ana Ruiz,PRICING_ANALYST,ana.ruiz@northwind.example
+4,ksato,Kenji Sato,PRICING_MANAGER,kenji.sato@northwind.example
+5,omensah,Ola Mensah,SALES,ola.mensah@northwind.example

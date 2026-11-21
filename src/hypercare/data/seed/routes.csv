@@ -1,0 +1,14 @@
+route_id,pol_code,pol_name,pod_code,pod_name,via_port,trade_lane,pg_id,is_inland
+1,FRLEH,Le Havre,CNSHA,Shanghai,,NEU-ASIA,1,0
+2,FRMRS,Marseille,SGSIN,Singapore,,MED-ASIA,2,0
+3,BEANR,Antwerp,USNYC,New York,,NEU-NAM,4,0
+4,NLRTM,Rotterdam,BRSSZ,Santos,,NEU-SAM,3,0
+5,DEHAM,Hamburg,CNNGB,Ningbo,,NEU-ASIA,1,0
+6,FRLYS,Lyon,CNSHA,Shanghai,FRLEH,NEU-ASIA,1,1
+7,FRLIL,Lille,CNSHA,Shanghai,FRLEH,NEU-ASIA,1,1
+8,FRSXB,Strasbourg,USNYC,New York,BEANR,NEU-NAM,4,1
+9,FRTLS,Toulouse,SGSIN,Singapore,FRMRS,MED-ASIA,2,1
+10,FRDJN,Dijon,BRSSZ,Santos,NLRTM,NEU-SAM,3,1
+11,ESVLC,Valencia,CNSHA,Shanghai,,MED-ASIA,2,0
+12,ITGOA,Genoa,SGSIN,Singapore,,MED-ASIA,2,0
+13,FRORL,Orleans,CNNGB,Ningbo,FRLEH,NEU-ASIA,1,1

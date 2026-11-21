@@ -1,0 +1,6 @@
+commodity_id,commodity_code,commodity_name,family,is_hazardous
+1,FAK,Freight all kinds,GENERAL,0
+2,CHEM3,Flammable liquids (class 3),CHEMICALS,1
+3,MACH,Machinery and spare parts,INDUSTRIAL,0
+4,COFF,Green coffee beans,FOODSTUFF,0
+5,TEXT,Textiles and garments,CONSUMER,0
