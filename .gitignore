@@ -16,6 +16,5 @@ __pycache__/
 var/
 reports/
 
-.snowflake/
 # Never commit real documents or exports
 data/private/

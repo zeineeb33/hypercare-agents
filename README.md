@@ -126,12 +126,23 @@ src/hypercare/
   ui/             Streamlit app
   schema.sql      SQLite schema
 tests/            pytest (fake LLM, local stub server for the SDK, Streamlit AppTest)
-snowflake/        first prototype on Snowflake Cortex (see below)
 ```
 
 ## Background
 
-The first prototype ran entirely inside Snowflake: Snowpark stored procedures, Cortex Search, Cortex `COMPLETE`, Streams and Tasks, and Streamlit in Snowflake. It is kept in [`snowflake/`](snowflake/). This version keeps its architecture and scenarios, and changes what a production version needs: portable Python, validated structured outputs, parameterised SQL, a verification step that fails closed, real pre-publication tests, an evaluation set and a test suite.
+The first prototype ran entirely inside Snowflake. This version keeps its architecture, agents and scenarios, and moves to portable Python so it can be tested, evaluated and deployed anywhere:
+
+| Concern | Snowflake prototype | This version |
+|---|---|---|
+| Data | Snowflake tables | SQLite, seeded from versioned CSV and JSON |
+| Retrieval | Cortex Search Service | BM25 sections, optional dense embeddings fused with RRF |
+| LLM | Cortex `COMPLETE` (Llama 3.1 70B) | Claude Opus 5.5 with validated structured outputs |
+| Agents | Snowpark Python stored procedures | Typed Python agents with a fake LLM for tests |
+| Automation | Stream + Task on the tickets table | Maintenance agent run from the app or the CLI |
+| Video ingestion | `AI_TRANSCRIBE` + vision model on frames | Transcript stored as a knowledge-base document |
+| UI | Streamlit in Snowflake | Streamlit on Render (replay mode) |
+
+Moving out of the prototype was also the occasion to fix what a production version needs: SQL with bound parameters, a verification step that fails closed, pre-publication tests that actually test the proposal, an evaluation set and a test suite.
 
 ## License
 
