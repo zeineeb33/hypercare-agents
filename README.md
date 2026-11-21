@@ -8,7 +8,7 @@ It answers from the documentation and the data, never invents a price, lets an i
 
 The domain is the pricing platform of a container shipping carrier. **The company (Northwind Shipping), its products (TideRate, QuotePort), the data and the documents are fictional.**
 
-> Live demo: *coming soon* (Render, replay mode).
+**Live demo:** https://hypercare-agents.onrender.com (free Render instance: the first visit after a period of inactivity can take up to a minute while it wakes up). The demo runs in replay mode: retrieval, SQL and verification run live, the LLM answers were recorded.
 
 ## Architecture
 
