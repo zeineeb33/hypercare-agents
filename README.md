@@ -10,6 +10,10 @@ Five agents answer each ticket from the documentation (retrieval-augmented gener
 
 The domain is the pricing platform of a container shipping carrier. **The company (Northwind Shipping), its products (TideRate, QuotePort), the data and the documents are fictional.**
 
+**Demo video:** https://youtu.be/st6TEws_vNs
+
+[![Demo video: ticket triage, guardrail veto and self-healing knowledge base](https://img.youtube.com/vi/st6TEws_vNs/hqdefault.jpg)](https://youtu.be/st6TEws_vNs)
+
 **Live demo:** https://hypercare-agents.onrender.com (free Render instance: the first visit after a period of inactivity can take up to a minute while it wakes up). The demo runs in replay mode: retrieval, SQL and verification run live, the LLM answers were recorded.
 
 ## What this project demonstrates
