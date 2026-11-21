@@ -206,8 +206,14 @@ def to_markdown(report: EvalReport) -> str:
         f"| Answers stating the expected facts | {pct(report.fact_accuracy)} |",
         f"| Decisions overridden by verification | {report.overrides} |",
         f"| Errors | {report.errors} |",
-        f"| Median latency per ticket | {report.median_latency_s} s |",
-        f"| Cost per ticket | ${report.cost_per_ticket_usd:.4f} |",
+        *(
+            [
+                f"| Median latency per ticket | {report.median_latency_s} s |",
+                f"| Cost per ticket | ${report.cost_per_ticket_usd:.4f} |",
+            ]
+            if report.total_cost_usd > 0
+            else ["| Latency and cost | n/a: answers replayed, not timed or billed |"]
+        ),
         "",
         "| Ticket | Case | Expected | Proposed | Final | OK |",
         "|---|---|---|---|---|---|",

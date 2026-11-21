@@ -60,7 +60,7 @@ flowchart TD
 - **Structured outputs everywhere.** Every Claude call goes through `messages.parse` with a Pydantic schema, so agents exchange validated objects, not free text. Any API error, refusal, truncated or invalid output becomes an `LLMError`, and the pipeline escalates.
 - **Deterministic where it matters.** SQL investigation, pattern detection and verification are plain code: they are testable, cheap and cannot hallucinate. The LLM writes; code decides whether the answer is safe to send.
 - **Fail closed.** No path lets an unverified answer through: a crash in verification, a failed LLM call or a missing replay all end in an escalation.
-- **Pre-publication tests that test something.** A documentation proposal is accepted only if the knowledge agent, re-run on the original question against the updated document, can now answer it.
+- **Pre-publication tests that test something.** A documentation proposal is accepted only if the knowledge agent, re-run on the original question against the updated document, can now answer it. The model is told to leave `[placeholders]` instead of inventing owners or delays; a proposal with placeholders cannot be approved until the reviewer fills them, and the tests run again on the edited text.
 - **Replay mode.** Only the LLM calls are recorded and replayed (keyed by a hash of the prompt). Retrieval, SQL and verification still run live in the public demo, at zero cost.
 - **Small footprint.** BM25 is pure Python, the database is SQLite, so the demo fits Render's free tier. Dense embeddings (`fastembed`) are an optional extra.
 - **Claude Opus 5.5** with adaptive thinking at `medium` effort, cacheable system prompts and server-side refusal fallbacks. The model is one setting (`HYPERCARE_MODEL`).
@@ -88,7 +88,30 @@ uv run hypercare review 1 --reviewer you --approve
 
 ## Results
 
-*Pending the first live evaluation run (27 cases).*
+27 evaluation cases covering the six scenarios plus documentation, booking, discount, incident and expiry questions ([`cases.json`](src/hypercare/data/eval/cases.json)):
+
+| Metric | Result |
+|---|---|
+| Decision accuracy (`ANSWER` / `ESCALATE` / `ASK_CLARIFICATION` / `DETECT_KB_GAP`) | 27 / 27 |
+| Answers citing the expected document | 100% |
+| Answers stating the expected facts (amounts, contacts, delays) | 100% |
+| Self-healing loop | gap detected on the inland-rate tickets only, proposal blocked until the reviewer fills its placeholders, approved, and the same five tickets then get an `ANSWER` |
+
+**How to read this.** The LLM answers used here were produced by Claude Opus 5.5 through Claude Code (see [Recording without the API](#recording-without-the-api)), by the same session that wrote the cases, so these numbers show that the pipeline works end to end; they are not an independent benchmark. Latency and cost are not measured for replayed answers. `HYPERCARE_MODE=live uv run hypercare eval` runs the same cases against the API for an independent measurement.
+
+The verification agent overrode nothing in this run because every proposed reply was safe. Its vetoes are covered by the tests, and the app has a **fault injection** switch that forces the resolution agent to answer so you can watch the checks block it (try ticket HC-2026-0006, a DRAFT line).
+
+## Recording without the API
+
+The public demo replays recorded LLM answers. They can come from a live run (`--record`) or be produced outside the app, for example in Claude Code, without API billing:
+
+```bash
+uv run hypercare prompts export           # run every ticket, write the prompts that have no answer yet
+uv run hypercare prompts show             # read them
+uv run hypercare prompts import answers.json   # validate each answer against its schema and store it
+```
+
+Repeat until nothing is pending: each agent waits for the previous one's answer (plan, then retrieval and answer, then decision). The export replays the whole demo, including the maintenance agent, the reviewer filling the placeholders ([`reviewer_edits.json`](src/hypercare/data/demo/reviewer_edits.json)), the approval and the re-run of the gap tickets.
 
 ## Project structure
 

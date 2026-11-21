@@ -43,3 +43,42 @@ def test_knowledge_search_and_maintenance_in_replay(app_env: None) -> None:
     # Without recorded answers the maintenance agent reports the problem instead of crashing.
     next(b for b in at.button if "maintenance agent" in b.label).click().run()
     assert not at.exception
+
+
+def test_fault_injection_is_blocked_by_verification(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """With the recorded answers, a forced ANSWER on a DRAFT line must be overridden."""
+    monkeypatch.setenv("HYPERCARE_DB_PATH", str(tmp_path / "ui.db"))
+    monkeypatch.setenv("HYPERCARE_MODE", "replay")
+    get_settings.cache_clear()
+    try:
+        at = AppTest.from_file(APP, default_timeout=60)
+        at.run()
+        at.selectbox[0].set_value(6).run()
+        at.toggle[0].set_value(True).run()
+        next(b for b in at.button if "Run the agents" in b.label).click().run()
+        assert not at.exception
+        texts = " ".join(m.value for m in at.markdown)
+        assert "OVERRIDE" in texts
+        assert "ESCALATE" in texts
+    finally:
+        get_settings.cache_clear()
+
+
+def test_recorded_demo_answers_drive_the_happy_path(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """The committed replay file answers the reference scenarios without any API call."""
+    monkeypatch.setenv("HYPERCARE_DB_PATH", str(tmp_path / "ui.db"))
+    monkeypatch.setenv("HYPERCARE_MODE", "replay")
+    get_settings.cache_clear()
+    try:
+        at = AppTest.from_file(APP, default_timeout=60)
+        at.run()
+        at.selectbox[0].set_value(3).run()
+        next(b for b in at.button if "Run the agents" in b.label).click().run()
+        assert not at.exception
+        assert any("2,150" in s.value for s in at.success)
+    finally:
+        get_settings.cache_clear()

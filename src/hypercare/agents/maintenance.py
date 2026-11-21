@@ -79,6 +79,10 @@ def append_section(content: str, title: str, body: str) -> str:
     return f"{content.rstrip()}\n\n## {title.strip()}\n{body.strip()}\n"
 
 
+class ReviewError(Exception):
+    pass
+
+
 class KnowledgeMaintenanceAgent:
     def __init__(
         self,
@@ -155,7 +159,7 @@ class KnowledgeMaintenanceAgent:
         return query_one(self.conn, "SELECT * FROM kb_documents WHERE file_name = ?", [file_name])
 
     def _checks(
-        self, gap: GapCandidate, draft: ProposalDraftOutput, doc: dict[str, object]
+        self, question: str, queries: list[str], draft: ProposalDraftOutput, doc: dict[str, object]
     ) -> tuple[list[VerificationCheck], Usage]:
         known = {
             str(r["file_name"]) for r in query(self.conn, "SELECT file_name FROM kb_documents")
@@ -188,10 +192,10 @@ class KnowledgeMaintenanceAgent:
         placeholders = re.findall(r"\[[^\]]+\]", draft.proposed_content)
         checks.append(
             VerificationCheck(
-                name="PLACEHOLDERS_TO_FILL",
-                passed=True,
-                severity="LOW",
-                detail=f"Reviewer must fill: {placeholders}" if placeholders else "None",
+                name="NO_PLACEHOLDER_LEFT",
+                passed=not placeholders,
+                severity="MEDIUM",
+                detail=f"Reviewer must fill: {placeholders}" if placeholders else "None left",
             )
         )
 
@@ -208,10 +212,10 @@ class KnowledgeMaintenanceAgent:
         tester = KnowledgeAgent(
             self.llm, KnowledgeIndex.from_documents([*others, updated]), self.top_k
         )
-        hits = tester.retrieve(gap.question, gap.knowledge.queries, str(doc["file_name"]))
+        hits = tester.retrieve(question, queries, str(doc["file_name"]))
         usage = Usage()
         try:
-            answer, usage = tester.answer(gap.question, hits)
+            answer, usage = tester.answer(question, hits)
             closes = not answer.insufficient_evidence
             detail = "Updated document answers the question" if closes else "Still insufficient"
         except LLMError as e:
@@ -261,17 +265,20 @@ class KnowledgeMaintenanceAgent:
         except LLMError:
             return None, Usage()
         draft = result.output
-        checks, check_usage = self._checks(gap, draft, doc)
+        checks, check_usage = self._checks(gap.question, gap.knowledge.queries, draft, doc)
         with transaction(self.conn):
             cur = self.conn.execute(
                 "INSERT INTO kb_proposals (created_at, subcategory, related_ticket_ids, "
-                "target_document, identified_gap, proposed_title, proposed_content, rationale, "
-                "sources, checks) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                "target_document, question, search_queries, identified_gap, proposed_title, "
+                "proposed_content, rationale, sources, checks) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 (
                     utcnow(),
                     gap.subcategory,
                     json.dumps(gap.ticket_ids),
                     gap.target_document,
+                    gap.question,
+                    json.dumps(gap.knowledge.queries),
                     gap.knowledge.answer.answer if gap.knowledge.answer else "",
                     draft.proposed_title,
                     draft.proposed_content,
@@ -291,6 +298,52 @@ class KnowledgeMaintenanceAgent:
             result.usage + check_usage,
         )
 
+    def revise(
+        self, proposal_id: int, content: str, title: str | None = None
+    ) -> tuple[ProposalResult, Usage]:
+        """Apply a reviewer's edit (e.g. filled placeholders) and re-run the pre-publication checks."""
+        p = query_one(self.conn, "SELECT * FROM kb_proposals WHERE proposal_id = ?", [proposal_id])
+        if p is None:
+            raise ReviewError(f"proposal {proposal_id} not found")
+        if p["status"] != "PENDING":
+            raise ReviewError(
+                f"proposal {proposal_id} is {p['status']}, only PENDING can be revised"
+            )
+        doc = self._document(str(p["target_document"]))
+        if doc is None:
+            raise ReviewError(f"target document {p['target_document']} no longer exists")
+        draft = ProposalDraftOutput(
+            proposed_title=title or str(p["proposed_title"]),
+            proposed_content=content,
+            rationale=str(p["rationale"]),
+            sources_used=json.loads(str(p["sources"])),
+        )
+        checks, usage = self._checks(
+            str(p["question"]), json.loads(str(p["search_queries"])), draft, doc
+        )
+        with transaction(self.conn):
+            self.conn.execute(
+                "UPDATE kb_proposals SET proposed_title = ?, proposed_content = ?, checks = ?, "
+                "revised_at = ? WHERE proposal_id = ?",
+                (
+                    draft.proposed_title,
+                    draft.proposed_content,
+                    json.dumps([c.model_dump() for c in checks]),
+                    utcnow(),
+                    proposal_id,
+                ),
+            )
+        return (
+            ProposalResult(
+                proposal_id=proposal_id,
+                subcategory=str(p["subcategory"]),
+                target_document=str(p["target_document"]),
+                proposed_title=draft.proposed_title,
+                checks=checks,
+            ),
+            usage,
+        )
+
     def run(self) -> MaintenanceReport:
         gaps, covered, skipped, usage = self.detect_gaps()
         proposals = []
@@ -303,10 +356,6 @@ class KnowledgeMaintenanceAgent:
 
 
 # ---------------------------------------------------------------------- human review
-
-
-class ReviewError(Exception):
-    pass
 
 
 def review_proposal(

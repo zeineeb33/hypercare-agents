@@ -45,13 +45,21 @@ def test_full_cycle_propose_approve(
     checks = {c.name: c for c in proposal.checks}
     assert checks["CLOSES_THE_GAP"].passed  # the updated document answers the question
     assert checks["SOURCES_EXIST"].passed
-    assert "[owner to confirm]" in checks["PLACEHOLDERS_TO_FILL"].detail
-    assert proposal.all_checks_pass
+    # The draft leaves a placeholder: it cannot be published as is.
+    assert not checks["NO_PLACEHOLDER_LEFT"].passed
+    assert "[owner to confirm]" in checks["NO_PLACEHOLDER_LEFT"].detail
+    with pytest.raises(ReviewError, match="NO_PLACEHOLDER_LEFT"):
+        review_proposal(conn, proposal.proposal_id, "APPROVED", "kb.reviewer")
 
     # A second run does not duplicate the pending proposal.
     again = KnowledgeMaintenanceAgent(conn, llm, index).run()
     assert again.skipped_existing == ["INLAND_CHARGE_MISSING"]
     assert again.proposals == []
+
+    # The reviewer fills the placeholder; the checks run again on the edited text.
+    filled = "1. Check the inland tariff table.\n2. Send the request to inland-pricing@northwind.example."
+    revised, _ = KnowledgeMaintenanceAgent(conn, llm, index).revise(proposal.proposal_id, filled)
+    assert revised.all_checks_pass
 
     result = review_proposal(conn, proposal.proposal_id, "APPROVED", "kb.reviewer", "ok")
     assert result["document_version"] == "1.3"
@@ -67,8 +75,19 @@ def test_full_cycle_propose_approve(
     )
     assert [(v["version_number"], v["is_current"]) for v in versions] == [(1, 0), (2, 1)]
 
+    assert "inland-pricing@northwind.example" in doc["content"]
+
     with pytest.raises(ReviewError, match="only PENDING"):
         review_proposal(conn, proposal.proposal_id, "REJECTED", "kb.reviewer")
+    with pytest.raises(ReviewError, match="only PENDING"):
+        KnowledgeMaintenanceAgent(conn, llm, index).revise(proposal.proposal_id, "x")
+
+
+def test_revise_unknown_proposal(
+    conn: sqlite3.Connection, index: KnowledgeIndex, llm: FakeLLM
+) -> None:
+    with pytest.raises(ReviewError, match="not found"):
+        KnowledgeMaintenanceAgent(conn, llm, index).revise(99, "x")
 
 
 def test_proposal_that_does_not_close_the_gap_cannot_be_approved(
@@ -114,4 +133,4 @@ def test_proposal_rows_are_json(
     row = query_one(conn, "SELECT related_ticket_ids, checks FROM kb_proposals")
     assert row is not None
     assert len(json.loads(row["related_ticket_ids"])) == 5
-    assert len(json.loads(row["checks"])) == 4
+    assert len(json.loads(row["checks"])) == 4  # sources, duplicate, placeholders, gap

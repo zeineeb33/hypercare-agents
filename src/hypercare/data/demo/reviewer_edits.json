@@ -1,0 +1,7 @@
+{
+ "_comment": "What the (fictional) knowledge-base reviewer fills in when a proposal leaves placeholders. Used by the demo and by `hypercare prompts export`.",
+ "INLAND_CHARGE_MISSING": {
+  "reviewer": "kb.reviewer",
+  "content": "When the check above finds no valid INL00 (pre-carriage) or INL50 (on-carriage) rate, QuotePort cannot add the inland leg: the quote then covers the ocean freight only and understates the customer price.\n\n1. Confirm the gap: in the inland tariff table, filter on the inland point and the gateway port and check that no INL00 or INL50 rate is valid on the quote date.\n2. Request the rate from the inland pricing team (inland-pricing@northwind.example) with: the inland point, the gateway port, the charge code (INL00 or INL50), the equipment sizes (20' and/or 40'), the date from which the rate is needed and the affected quote or ticket references.\n3. Until the rate is loaded, do not present the quote as complete: tell the customer that the inland leg is not yet priced and will be added before the quote is final.\n4. The inland pricing team loads the rate within two business days. Check again that it is valid in the inland tariff table: QuotePort then adds it automatically to new quotes from that inland point. Create a new quote and check that the inland charge appears as a separate line in the quote breakdown."
+ }
+}

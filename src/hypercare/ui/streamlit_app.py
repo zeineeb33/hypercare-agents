@@ -9,12 +9,14 @@ import json
 from typing import Any
 
 import streamlit as st
+from pydantic import BaseModel
 
 from hypercare.agents.maintenance import ReviewError, review_proposal
+from hypercare.agents.orchestrator import Orchestrator
 from hypercare.agents.schemas import TicketRun
-from hypercare.config import DATA_DIR
+from hypercare.config import DATA_DIR, get_settings
 from hypercare.db import query, query_one, transaction, utcnow
-from hypercare.llm import LLMError
+from hypercare.llm import LLMClient, LLMError, LLMResult
 from hypercare.seed import build_database
 from hypercare.services import Services, open_services
 
@@ -46,13 +48,42 @@ PIPELINE = [
 ]
 
 
+class FaultyResolution:
+    """Fault injection for the demo: the resolution agent always says ANSWER.
+
+    Shows that the deterministic verification agent blocks unsafe answers whatever the LLM says.
+    """
+
+    def __init__(self, inner: LLMClient) -> None:
+        self.inner = inner
+
+    def structured[T: BaseModel](
+        self, *, task: str, system: str, user: str, schema: type[T]
+    ) -> LLMResult[T]:
+        result = self.inner.structured(task=task, system=system, user=user, schema=schema)
+        if task != "resolution.decide":
+            return result
+        forced = result.output.model_copy(
+            update={
+                "decision": "ANSWER",
+                "response": "Confirmed, you can go ahead: "
+                + str(getattr(result.output, "response", "")),
+                "confidence": "HIGH",
+            }
+        )
+        return LLMResult(output=forced, usage=result.usage)
+
+
 @st.cache_resource
-def services() -> Services:
-    return open_services()
+def services(db_path: str, mode: str, replay_path: str) -> Services:
+    """One set of services per configuration (arguments are the cache key)."""
+    del db_path, mode, replay_path  # read again from the settings by open_services
+    return open_services(get_settings())
 
 
 def svc() -> Services:
-    return services()
+    s = get_settings()
+    return services(str(s.db_path), s.mode, str(s.replay_path))
 
 
 def df(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -91,7 +122,7 @@ def sidebar(s: Services) -> None:
         st.divider()
         if mode == "live":
             new_ticket_form(s)
-        if st.button(":material/restart_alt: Reset demo data", use_container_width=True):
+        if st.button(":material/restart_alt: Reset demo data", width="stretch"):
             s.conn.close()
             build_database(s.settings.db_path, s.settings.seed_dir, s.settings.kb_dir)
             services.clear()
@@ -216,9 +247,7 @@ def show_run(run: TicketRun) -> None:
                     f"(threshold {run.pattern.threshold}) · knowledge gap: **{run.pattern.kb_gap}**"
                 )
     with st.expander(":material/timeline: Execution trace"):
-        st.dataframe(
-            df([s.model_dump() for s in run.steps]), hide_index=True, use_container_width=True
-        )
+        st.dataframe(df([s.model_dump() for s in run.steps]), hide_index=True, width="stretch")
     with st.expander(":material/code: Full JSON"):
         st.json(json.loads(run.model_dump_json()))
 
@@ -231,7 +260,7 @@ def ticket_console(s: Services) -> None:
             color, _ = DECISION_STYLE[expected]
             st.markdown(f"**{sid} · {title}**  \n:gray[{desc}]")
             st.markdown(f":{color}-badge[{expected}]")
-            if st.button("Select", key=f"sc_{sid}", use_container_width=True):
+            if st.button("Select", key=f"sc_{sid}", width="stretch"):
                 st.session_state["selected_ticket"] = ids[0]
 
     tickets = query(
@@ -260,8 +289,12 @@ def ticket_console(s: Services) -> None:
             f":gray-badge[{t['category']}] :gray-badge[{t['subcategory']}] "
             f":blue-badge[{t['priority']}] :violet-badge[{t['status']}]"
         )
+        faulty = st.toggle(
+            "Fault injection: force the resolution agent to answer",
+            help="Demo of the safety net: the verification agent must block unsafe answers.",
+        )
         run_clicked = st.button(
-            ":material/play_arrow: Run the agents", type="primary", use_container_width=True
+            ":material/play_arrow: Run the agents", type="primary", width="stretch"
         )
     with right, st.container(border=True):
         st.caption(t["ticket_ref"])
@@ -270,7 +303,16 @@ def ticket_console(s: Services) -> None:
     if run_clicked:
         try:
             with st.spinner("Agents at work…"):
-                st.session_state["last_run"] = s.orchestrator().run(int(selected))
+                orchestrator = s.orchestrator()
+                if faulty:
+                    orchestrator = Orchestrator(
+                        s.conn,
+                        FaultyResolution(s.llm),
+                        s.index,
+                        top_k=s.settings.retrieval_top_k,
+                        recurring_min_tickets=s.settings.recurring_min_tickets,
+                    )
+                st.session_state["last_run"] = orchestrator.run(int(selected))
         except LLMError as e:
             st.error(str(e))
     run: TicketRun | None = st.session_state.get("last_run")
@@ -292,7 +334,7 @@ def knowledge_tab(s: Services) -> None:
         f"#### {len(docs)} documents · {len(s.index.passages)} indexed sections · "
         f"{'hybrid (BM25 + embeddings)' if s.index.hybrid else 'BM25'} retrieval"
     )
-    st.dataframe(df(docs), hide_index=True, use_container_width=True)
+    st.dataframe(df(docs), hide_index=True, width="stretch")
     q = st.text_input(
         "Search the knowledge base", placeholder="e.g. inland pre-carriage, DRAFT line"
     )
@@ -303,6 +345,37 @@ def knowledge_tab(s: Services) -> None:
 
 
 # ---------------------------------------------------------------- self-healing KB
+
+
+def edit_proposal(s: Services, p: dict[str, Any]) -> None:
+    """Let the reviewer fill placeholders and re-run the checks before approving."""
+    from hypercare.cli import demo_reviewer_edits
+
+    demo = demo_reviewer_edits().get(str(p["subcategory"]))
+    pid = int(p["proposal_id"])
+    if s.settings.mode == "live":
+        with st.expander("Edit the proposal (fill the [placeholders]) and re-test"):
+            text = st.text_area("Section", p["proposed_content"], height=220, key=f"edit_{pid}")
+            if st.button("Re-run the checks", key=f"retest_{pid}"):
+                revise(s, pid, text)
+    if demo and demo["content"] != p["proposed_content"]:
+        st.caption(
+            "Demo: the reviewer knows who owns the inland tariffs and the lead time, "
+            "and fills the placeholders."
+        )
+        if st.button(
+            ":material/edit_note: Apply the reviewer's edit and re-test", key=f"demo_{pid}"
+        ):
+            revise(s, pid, demo["content"])
+
+
+def revise(s: Services, proposal_id: int, content: str) -> None:
+    try:
+        with st.spinner("Re-running the pre-publication checks…"):
+            s.maintenance().revise(proposal_id, content)
+        st.rerun()
+    except (ReviewError, LLMError) as e:
+        st.error(str(e))
 
 
 def self_healing_tab(s: Services) -> None:
@@ -339,6 +412,7 @@ def self_healing_tab(s: Services) -> None:
                 mark = ":green-badge[PASS]" if c["passed"] else ":red-badge[FAIL]"
                 st.markdown(f"{mark} **{c['name']}** :gray[{c['detail']}]")
             if p["status"] == "PENDING":
+                edit_proposal(s, p)
                 reviewer = st.text_input("Reviewer", "kb.reviewer", key=f"rev_{p['proposal_id']}")
                 a, b, _ = st.columns([1, 1, 4])
                 for col, label, decision in ((a, "Approve", "APPROVED"), (b, "Reject", "REJECTED")):
@@ -356,7 +430,7 @@ def self_healing_tab(s: Services) -> None:
     )
     if versions:
         st.markdown("#### Version history")
-        st.dataframe(df(versions), hide_index=True, use_container_width=True)
+        st.dataframe(df(versions), hide_index=True, width="stretch")
 
 
 # ---------------------------------------------------------------- evaluation and system
@@ -373,13 +447,20 @@ def evaluation_tab() -> None:
     c[0].metric("Decision accuracy", f"{report['decision_accuracy']:.0%}")
     c[1].metric("Cites expected doc", f"{(report['source_accuracy'] or 0):.0%}")
     c[2].metric("States expected facts", f"{(report['fact_accuracy'] or 0):.0%}")
-    c[3].metric("Median latency", f"{report['median_latency_s']} s")
-    c[4].metric("Cost / ticket", f"${report['cost_per_ticket_usd']:.3f}")
+    replayed = report["total_cost_usd"] == 0
+    c[3].metric("Median latency", "n/a" if replayed else f"{report['median_latency_s']} s")
+    c[4].metric("Cost / ticket", "n/a" if replayed else f"${report['cost_per_ticket_usd']:.3f}")
+    if replayed:
+        st.caption(
+            "Answers were produced by Claude Opus 5.5 through Claude Code and replayed, so latency "
+            "and cost are not measured. The same session wrote the cases and produced the answers: "
+            "this shows the pipeline end to end, it is not an independent benchmark."
+        )
     rows = [
         {k: r[k] for k in ("ticket_ref", "note", "expected", "proposed", "actual", "decision_ok")}
         for r in report["results"]
     ]
-    st.dataframe(df(rows), hide_index=True, use_container_width=True)
+    st.dataframe(df(rows), hide_index=True, width="stretch")
 
 
 def row_count(s: Services, table: str) -> int:
@@ -398,12 +479,12 @@ def system_tab(s: Services) -> None:
             "SELECT execution_id, ticket_id, agent, action, status, decision, "
             "duration_ms, cost_usd FROM agent_traces ORDER BY trace_id DESC LIMIT 60",
         )
-        st.dataframe(df(traces), hide_index=True, use_container_width=True, height=380)
+        st.dataframe(df(traces), hide_index=True, width="stretch", height=380)
     with right:
         st.markdown("#### Tables")
         tables = query(s.conn, "SELECT name FROM sqlite_master WHERE type = 'table' ORDER BY name")
         counts = [{"table": str(t["name"]), "rows": row_count(s, str(t["name"]))} for t in tables]
-        st.dataframe(df(counts), hide_index=True, use_container_width=True, height=380)
+        st.dataframe(df(counts), hide_index=True, width="stretch", height=380)
     st.caption(
         f"Model `{s.settings.model}` · effort `{s.settings.effort}` · mode `{s.settings.mode}`"
     )

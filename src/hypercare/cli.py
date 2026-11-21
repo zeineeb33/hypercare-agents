@@ -16,6 +16,8 @@ from hypercare.config import PACKAGE_DIR, get_settings
 
 app = typer.Typer(help="Multi-agent hypercare support system.", no_args_is_help=True)
 
+CLAUDE_CODE_LABEL = "claude-opus-5-5 via Claude Code"
+
 
 @app.command()
 def seed() -> None:
@@ -101,7 +103,7 @@ def evaluate(
             conn,
             build_llm(s, record=record),
             load_index(conn),
-            model=s.model if s.mode == "live" else f"{s.model} (replay)",
+            model=s.model if s.mode == "live" else f"{CLAUDE_CODE_LABEL} (replayed)",
             cases=cases,
             workers=workers,
             recurring_min_tickets=s.recurring_min_tickets,
@@ -164,6 +166,164 @@ def review(
         typer.echo(f"Error: {e}", err=True)
         raise typer.Exit(1) from e
     typer.echo(json.dumps(result, indent=2))
+
+
+def demo_reviewer_edits() -> dict[str, dict[str, str]]:
+    from hypercare.config import DATA_DIR
+
+    data: dict[str, dict[str, str]] = json.loads(
+        (DATA_DIR / "demo" / "reviewer_edits.json").read_text()
+    )
+    return {k: v for k, v in data.items() if not k.startswith("_")}
+
+
+@app.command()
+def revise(
+    proposal_id: int,
+    content_file: Annotated[Path, typer.Argument(help="Markdown file with the edited section.")],
+    record: Annotated[bool, typer.Option(help="Save live LLM calls for replay.")] = False,
+) -> None:
+    """Replace a proposal's content (e.g. filled placeholders) and re-run its checks."""
+    from hypercare.agents.maintenance import ReviewError
+    from hypercare.services import open_services
+
+    try:
+        result, _ = (
+            open_services(record=record).maintenance().revise(proposal_id, content_file.read_text())
+        )
+    except ReviewError as e:
+        typer.echo(f"Error: {e}", err=True)
+        raise typer.Exit(1) from e
+    for c in result.checks:
+        typer.echo(f"  [{'PASS' if c.passed else 'FAIL'}] {c.name}: {c.detail}")
+
+
+prompts_app = typer.Typer(help="Record replays without the API (answers produced elsewhere).")
+app.add_typer(prompts_app, name="prompts")
+
+PENDING_PATH = Path("var/pending.json")
+
+
+@prompts_app.command("export")
+def prompts_export(
+    maintenance: Annotated[
+        bool, typer.Option(help="Also run maintenance, approve passing proposals, re-run tickets.")
+    ] = True,
+    out: Annotated[Path, typer.Option(help="Where to write the pending prompts.")] = PENDING_PATH,
+) -> None:
+    """Run every ticket on a fresh database and write the prompts that have no answer yet."""
+    from hypercare.agents.maintenance import KnowledgeMaintenanceAgent, review_proposal
+    from hypercare.agents.orchestrator import Orchestrator
+    from hypercare.db import connect, query
+    from hypercare.llm.collect import CollectingClient
+    from hypercare.seed import build_database
+    from hypercare.services import load_index
+
+    s = get_settings()
+    llm = CollectingClient(s.replay_path)
+    with tempfile.TemporaryDirectory() as tmp:
+        db = Path(tmp) / "export.db"
+        build_database(db, s.seed_dir, s.kb_dir)
+        conn = connect(db)
+        index = load_index(conn)
+
+        def run_tickets(ids: list[int]) -> None:
+            orchestrator = Orchestrator(
+                conn,
+                llm,
+                index,
+                top_k=s.retrieval_top_k,
+                recurring_min_tickets=s.recurring_min_tickets,
+            )
+            for ticket_id in ids:
+                llm.start_run()
+                orchestrator.run(ticket_id)
+
+        run_tickets([int(r["ticket_id"]) for r in query(conn, "SELECT ticket_id FROM tickets")])
+        if maintenance:
+            llm.start_run()
+            agent = KnowledgeMaintenanceAgent(
+                conn, llm, index, min_tickets=s.recurring_min_tickets, top_k=s.retrieval_top_k
+            )
+            report = agent.run()
+            edits = demo_reviewer_edits()
+            proposals = []
+            for proposal in report.proposals:
+                if not proposal.all_checks_pass and proposal.subcategory in edits:
+                    # The demo reviewer fills the placeholders, then the checks run again.
+                    llm.start_run()
+                    content = edits[proposal.subcategory]["content"]
+                    proposal, _ = agent.revise(proposal.proposal_id, content)  # noqa: PLW2901
+                proposals.append(proposal)
+            approved = [p for p in proposals if p.all_checks_pass]
+            for p in approved:
+                review_proposal(conn, p.proposal_id, "APPROVED", "kb.reviewer")
+            if approved:
+                index = load_index(conn)
+                ids = sorted(
+                    {
+                        t
+                        for p in approved
+                        for t in json.loads(
+                            str(
+                                query(
+                                    conn,
+                                    "SELECT related_ticket_ids FROM kb_proposals WHERE proposal_id = ?",
+                                    [p.proposal_id],
+                                )[0]["related_ticket_ids"]
+                            )
+                        )
+                    }
+                )
+                run_tickets(ids)
+            typer.echo(
+                f"Maintenance: {len(report.proposals)} proposal(s), {len(approved)} approved"
+            )
+        conn.close()
+
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(llm.pending, indent=1) + "\n")
+    by_task: dict[str, int] = {}
+    for item in llm.pending.values():
+        by_task[item["task"]] = by_task.get(item["task"], 0) + 1
+    typer.echo(f"{len(llm.pending)} pending prompt(s) written to {out}: {by_task or 'none'}")
+
+
+@prompts_app.command("show")
+def prompts_show(
+    path: Annotated[Path, typer.Argument()] = PENDING_PATH,
+    task: Annotated[str | None, typer.Option(help="Only this task.")] = None,
+) -> None:
+    """Print pending prompts in a readable form (each system prompt once)."""
+    pending: dict[str, dict[str, str]] = json.loads(path.read_text())
+    systems_seen: set[str] = set()
+    for key, item in pending.items():
+        if task and item["task"] != task:
+            continue
+        if item["task"] not in systems_seen:
+            systems_seen.add(item["task"])
+            typer.echo(f"\n######## SYSTEM for {item['task']} ({item['schema']})\n{item['system']}")
+        typer.echo(f"\n======== {key}\n{item['user']}")
+
+
+@prompts_app.command("import")
+def prompts_import(
+    answers: Annotated[Path, typer.Argument(help="JSON object: prompt key -> answer.")],
+    pending: Annotated[Path, typer.Option(help="Pending prompts file.")] = PENDING_PATH,
+    label: Annotated[str, typer.Option(help="Model label stored with the answers.")] = (
+        CLAUDE_CODE_LABEL
+    ),
+) -> None:
+    """Validate answers against their schemas and add them to the replay file."""
+    from hypercare.llm.collect import AnswerImportError, import_answers
+
+    s = get_settings()
+    try:
+        n = import_answers(pending, answers, s.replay_path, model_label=label)
+    except AnswerImportError as e:
+        typer.echo(f"Error: {e}", err=True)
+        raise typer.Exit(1) from e
+    typer.echo(f"{n} answer(s) added to {s.replay_path}")
 
 
 @app.command()

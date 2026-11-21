@@ -1,0 +1,545 @@
+{
+  "model": "claude-opus-5-5 via Claude Code (replayed)",
+  "cases": 27,
+  "decision_accuracy": 1.0,
+  "source_accuracy": 1.0,
+  "fact_accuracy": 1.0,
+  "overrides": 0,
+  "errors": 0,
+  "median_latency_s": 0.0,
+  "total_cost_usd": 0.0,
+  "cost_per_ticket_usd": 0.0,
+  "confusion": {
+    "ANSWER": {
+      "ANSWER": 15
+    },
+    "ESCALATE": {
+      "ESCALATE": 4
+    },
+    "DETECT_KB_GAP": {
+      "DETECT_KB_GAP": 5
+    },
+    "ANSWER/ESCALATE": {
+      "ESCALATE": 1
+    },
+    "ASK_CLARIFICATION": {
+      "ASK_CLARIFICATION": 2
+    }
+  },
+  "results": [
+    {
+      "ticket_id": 1,
+      "ticket_ref": "HC-2026-0001",
+      "note": "HAZ cargo cannot go on a SOC line",
+      "expected": [
+        "ANSWER"
+      ],
+      "proposed": "ANSWER",
+      "actual": "ANSWER",
+      "decision_ok": true,
+      "sources_ok": true,
+      "mentions_ok": true,
+      "missing_mentions": [],
+      "overridden": false,
+      "duration_ms": 6,
+      "cost_usd": 0.0,
+      "response": "No, hazardous cargo cannot be quoted on a SOC line: SOC lines only accept general cargo and are not approved for dangerous goods. Flammable liquids (IMO class 3) must be quoted on a price line flagged HAZ, with Northwind equipment; a HAZ surcharge is added to the base rate and a dangerous goods declaration is required before booking. If the customer insists on shipping the hazardous cargo in its own container, that is a special rate: send the request to the Pricing desk.",
+      "error": null
+    },
+    {
+      "ticket_id": 2,
+      "ticket_ref": "HC-2026-0002",
+      "note": "SOC meaning and why it is cheaper",
+      "expected": [
+        "ANSWER"
+      ],
+      "proposed": "ANSWER",
+      "actual": "ANSWER",
+      "decision_ok": true,
+      "sources_ok": true,
+      "mentions_ok": true,
+      "missing_mentions": [],
+      "overridden": false,
+      "duration_ms": 98,
+      "cost_usd": 0.0,
+      "response": "The SOC flag marks a price line for shipper-owned containers: it applies when the customer ships in its own container instead of Northwind equipment (flag added in TideRate 3.2). SOC rates are lower because Northwind does not provide, reposition or maintain the container; on Le Havre to Shanghai the SOC line is usually 150 to 250 USD below the standard 40HC rate. SOC lines only accept general cargo.",
+      "error": null
+    },
+    {
+      "ticket_id": 3,
+      "ticket_ref": "HC-2026-0003",
+      "note": "Base rate vs all-in quote",
+      "expected": [
+        "ANSWER"
+      ],
+      "proposed": "ANSWER",
+      "actual": "ANSWER",
+      "decision_ok": true,
+      "sources_ok": true,
+      "mentions_ok": true,
+      "missing_mentions": [],
+      "overridden": false,
+      "duration_ms": 10,
+      "cost_usd": 0.0,
+      "response": "Both figures are correct. PL-2026-041 line 12 (ACTIVE, valid 1 Oct to 31 Dec 2026) shows the base ocean freight: USD 1,850 per 40HC. This price list is not all-in, so QuotePort adds the line's surcharges: BAF USD 220 and LSS USD 80. The all-in price shown to the customer is therefore 1,850 + 220 + 80 = USD 2,150 per container, which is exactly what quote QS-10231 says (valid until 26 Nov 2026, already booked).",
+      "error": null
+    },
+    {
+      "ticket_id": 4,
+      "ticket_ref": "HC-2026-0004",
+      "note": "Expired line replaced by a new one",
+      "expected": [
+        "ANSWER"
+      ],
+      "proposed": "ANSWER",
+      "actual": "ANSWER",
+      "decision_ok": true,
+      "sources_ok": true,
+      "mentions_ok": true,
+      "missing_mentions": [],
+      "overridden": false,
+      "duration_ms": 129,
+      "cost_usd": 0.0,
+      "response": "The price went up because the price line changed. QS-10198 (USD 1,950 per 40HC) was built on PL-2026-047 line 3, which was valid until 31 Oct 2026 and has since expired; the quote itself expired on 3 Nov. Since 1 Nov, the ACTIVE line for Marseille to Singapore is PL-2026-047 line 5 at USD 2,100 per 40HC, and the new quote QS-10240 uses it. Both lines belong to an all-in price list, so no surcharge is added: the USD 150 increase is the new base rate. QS-10240 is valid until 28 Nov 2026.",
+      "error": null
+    },
+    {
+      "ticket_id": 5,
+      "ticket_ref": "HC-2026-0005",
+      "note": "20ST base vs all-in",
+      "expected": [
+        "ANSWER"
+      ],
+      "proposed": "ANSWER",
+      "actual": "ANSWER",
+      "decision_ok": true,
+      "sources_ok": true,
+      "mentions_ok": true,
+      "missing_mentions": [],
+      "overridden": false,
+      "duration_ms": 44,
+      "cost_usd": 0.0,
+      "response": "The quote is correct. PL-2026-049 line 8 (ACTIVE, valid 1 Oct to 31 Dec 2026) has a 20ST base rate of USD 1,200. The price list is not all-in, so QuotePort adds the line's surcharges: BAF USD 160 and LSS USD 60. The all-in price is 1,200 + 160 + 60 = USD 1,420 per 20ST, which is the amount on QS-10236.",
+      "error": null
+    },
+    {
+      "ticket_id": 6,
+      "ticket_ref": "HC-2026-0006",
+      "note": "Confirm a DRAFT line",
+      "expected": [
+        "ESCALATE"
+      ],
+      "proposed": "ESCALATE",
+      "actual": "ESCALATE",
+      "decision_ok": true,
+      "sources_ok": null,
+      "mentions_ok": null,
+      "missing_mentions": [],
+      "overridden": false,
+      "duration_ms": 2,
+      "cost_usd": 0.0,
+      "response": "I cannot confirm this rate. PL-2026-052 line 7 (Rotterdam to Santos, green coffee, 40HC USD 2,600) is a DRAFT line: it has not been published and must not be quoted or confirmed to a customer. Only the Pricing Manager can publish it. The ticket is escalated to the Pricing Manager; please do not send this rate to the customer in the meantime.",
+      "error": null
+    },
+    {
+      "ticket_id": 7,
+      "ticket_ref": "HC-2026-0007",
+      "note": "Book a quote made on a DRAFT line",
+      "expected": [
+        "ESCALATE"
+      ],
+      "proposed": "ESCALATE",
+      "actual": "ESCALATE",
+      "decision_ok": true,
+      "sources_ok": null,
+      "mentions_ok": null,
+      "missing_mentions": [],
+      "overridden": false,
+      "duration_ms": 2,
+      "cost_usd": 0.0,
+      "response": "Do not book it yet. Quote QS-10245 (3 x 40HC at USD 2,870 all-in) was created on PL-2026-052 line 7, which is still a DRAFT line and has not been published. A quote on a DRAFT line must not be booked; such quotes, created before TideRate 3.3 blocked them, must be escalated. The ticket is escalated to the Pricing Manager, who can publish the line or define the rate to use.",
+      "error": null
+    },
+    {
+      "ticket_id": 8,
+      "ticket_ref": "HC-2026-0008",
+      "note": "Overlapping ACTIVE lines",
+      "expected": [
+        "ESCALATE"
+      ],
+      "proposed": "ESCALATE",
+      "actual": "ESCALATE",
+      "decision_ok": true,
+      "sources_ok": null,
+      "mentions_ok": null,
+      "missing_mentions": [],
+      "overridden": false,
+      "duration_ms": 2,
+      "cost_usd": 0.0,
+      "response": "The data confirms the overlap: PL-2026-055 line 2 (40HC USD 1,800, valid 15 Oct to 31 Dec 2026) and line 3 (40HC USD 1,880, valid 15 Nov 2026 to 15 Jan 2027) are both ACTIVE for Hamburg to Ningbo FAK on 20 November. Hypercare must not choose between overlapping lines. The ticket is escalated to the Pricing desk (pricing-desk@northwind.example), which will close one of the lines; wait for their decision before quoting.",
+      "error": null
+    },
+    {
+      "ticket_id": 9,
+      "ticket_ref": "HC-2026-0009",
+      "note": "Recurring missing inland rate",
+      "expected": [
+        "DETECT_KB_GAP"
+      ],
+      "proposed": "DETECT_KB_GAP",
+      "actual": "DETECT_KB_GAP",
+      "decision_ok": true,
+      "sources_ok": null,
+      "mentions_ok": null,
+      "missing_mentions": [],
+      "overridden": false,
+      "duration_ms": 2,
+      "cost_usd": 0.0,
+      "response": "Recurring issue: 5 open tickets in INLAND_CHARGE_MISSING that the knowledge base does not cover. What the documentation says: The documentation explains that the trucking from Lyon to Le Havre is charged as INL00 (pre-carriage) and how to check that an INL00 rate exists and is valid in the inland tariff table; when it is valid, QuotePort adds it automatically (guide_inland_tariff.md, v1.2). It does not explain how to get a missing inland rate added, nor who owns the inland tariff table. That part of the process is not documented. A knowledge-base update has been flagged for review; meanwhile the ticket goes to the pricing desk.",
+      "error": null
+    },
+    {
+      "ticket_id": 10,
+      "ticket_ref": "HC-2026-0010",
+      "note": "Recurring missing inland rate",
+      "expected": [
+        "DETECT_KB_GAP"
+      ],
+      "proposed": "DETECT_KB_GAP",
+      "actual": "DETECT_KB_GAP",
+      "decision_ok": true,
+      "sources_ok": null,
+      "mentions_ok": null,
+      "missing_mentions": [],
+      "overridden": false,
+      "duration_ms": 2,
+      "cost_usd": 0.0,
+      "response": "Recurring issue: 5 open tickets in INLAND_CHARGE_MISSING that the knowledge base does not cover. What the documentation says: The inland tariff guide (v1.2) only describes how to check an INL00 or INL50 rate: filter the inland tariff table on the inland point and gateway port, and check that a valid rate exists. It does not say what to do when the rate is missing or who can add it. Release notes 3.2 confirm that inland rates are managed in TideRate, but no request process is documented. A knowledge-base update has been flagged for review; meanwhile the ticket goes to the pricing desk.",
+      "error": null
+    },
+    {
+      "ticket_id": 11,
+      "ticket_ref": "HC-2026-0011",
+      "note": "Recurring missing inland rate",
+      "expected": [
+        "DETECT_KB_GAP"
+      ],
+      "proposed": "DETECT_KB_GAP",
+      "actual": "DETECT_KB_GAP",
+      "decision_ok": true,
+      "sources_ok": null,
+      "mentions_ok": null,
+      "missing_mentions": [],
+      "overridden": false,
+      "duration_ms": 2,
+      "cost_usd": 0.0,
+      "response": "Recurring issue: 5 open tickets in INLAND_CHARGE_MISSING that the knowledge base does not cover. What the documentation says: The documents explain that pre-carriage is charged as INL00 and how to check whether a valid rate exists in the inland tariff table (guide_inland_tariff.md, v1.2), and that inland rates are managed in TideRate (release_notes_3_2.md). None of them says who can add a missing inland rate or how to request it. A knowledge-base update has been flagged for review; meanwhile the ticket goes to the pricing desk.",
+      "error": null
+    },
+    {
+      "ticket_id": 12,
+      "ticket_ref": "HC-2026-0012",
+      "note": "Recurring missing inland rate",
+      "expected": [
+        "DETECT_KB_GAP"
+      ],
+      "proposed": "DETECT_KB_GAP",
+      "actual": "DETECT_KB_GAP",
+      "decision_ok": true,
+      "sources_ok": null,
+      "mentions_ok": null,
+      "missing_mentions": [],
+      "overridden": false,
+      "duration_ms": 2,
+      "cost_usd": 0.0,
+      "response": "Recurring issue: 5 open tickets in INLAND_CHARGE_MISSING that the knowledge base does not cover. What the documentation says: Door pickup from Dijon to Rotterdam would be an INL00 pre-carriage charge, which QuotePort adds automatically only when a valid rate exists in the inland tariff table (guide_inland_tariff.md, v1.2). The documentation explains how to check for that rate but describes no process to request a missing inland rate. A knowledge-base update has been flagged for review; meanwhile the ticket goes to the pricing desk.",
+      "error": null
+    },
+    {
+      "ticket_id": 13,
+      "ticket_ref": "HC-2026-0013",
+      "note": "Recurring missing inland rate",
+      "expected": [
+        "DETECT_KB_GAP"
+      ],
+      "proposed": "DETECT_KB_GAP",
+      "actual": "DETECT_KB_GAP",
+      "decision_ok": true,
+      "sources_ok": null,
+      "mentions_ok": null,
+      "missing_mentions": [],
+      "overridden": false,
+      "duration_ms": 2,
+      "cost_usd": 0.0,
+      "response": "Recurring issue: 5 open tickets in INLAND_CHARGE_MISSING that the knowledge base does not cover. What the documentation says: The documentation confirms that the Lyon to gateway leg is charged as INL00 pre-carriage and that QuotePort adds it only when a valid rate exists in the inland tariff table (guide_inland_tariff.md, v1.2). It does not describe how to get a missing inland rate loaded or who is responsible for it, so the documents cannot resolve this request. A knowledge-base update has been flagged for review; meanwhile the ticket goes to the pricing desk.",
+      "error": null
+    },
+    {
+      "ticket_id": 14,
+      "ticket_ref": "HC-2026-0014",
+      "note": "Missing commodity, request process",
+      "expected": [
+        "ANSWER"
+      ],
+      "proposed": "ANSWER",
+      "actual": "ANSWER",
+      "decision_ok": true,
+      "sources_ok": true,
+      "mentions_ok": true,
+      "missing_mentions": [],
+      "overridden": false,
+      "duration_ms": 2,
+      "cost_usd": 0.0,
+      "response": "QuotePort returns no offer because lithium batteries are not in the commodity list. Send the commodity request form to the commodity data team (commodity-data@northwind.example) with the commodity name, the HS code and the IMO class; lead time is two business days. Lithium batteries are IMO class 9 dangerous goods, so once added they can only be quoted on a HAZ line: a HAZ surcharge applies and a dangerous goods declaration is required before booking.",
+      "error": null
+    },
+    {
+      "ticket_id": 15,
+      "ticket_ref": "HC-2026-0015",
+      "note": "Quote to booking, validity",
+      "expected": [
+        "ANSWER"
+      ],
+      "proposed": "ANSWER",
+      "actual": "ANSWER",
+      "decision_ok": true,
+      "sources_ok": true,
+      "mentions_ok": true,
+      "missing_mentions": [],
+      "overridden": false,
+      "duration_ms": 2,
+      "cost_usd": 0.0,
+      "response": "Open the quote in QuotePort and check that its status is ACCEPTED or PENDING, click Convert to booking, select a voyage, then confirm the equipment and quantity. The booking total is the quoted all-in price per container multiplied by the number of containers. A quote is valid for 14 days from its creation date; the validity date is printed on the quote. After that it cannot be converted: create a new quote, which uses the current ACTIVE price line, so the price may change.",
+      "error": null
+    },
+    {
+      "ticket_id": 16,
+      "ticket_ref": "HC-2026-0016",
+      "note": "Booking total is all-in x quantity",
+      "expected": [
+        "ANSWER"
+      ],
+      "proposed": "ANSWER",
+      "actual": "ANSWER",
+      "decision_ok": true,
+      "sources_ok": null,
+      "mentions_ok": true,
+      "missing_mentions": [],
+      "overridden": false,
+      "duration_ms": 2,
+      "cost_usd": 0.0,
+      "response": "The booking amount is correct. USD 1,850 is the base 40HC rate of PL-2026-041 line 12, not the price quoted to the customer. Quote QS-10231 is all-in: 1,850 + BAF 220 + LSS 80 = USD 2,150 per 40HC. Booking BK-55012 covers 2 x 40HC, so 2 x 2,150 = USD 4,300, as shown.",
+      "error": null
+    },
+    {
+      "ticket_id": 19,
+      "ticket_ref": "HC-2026-0019",
+      "note": "Release notes 3.3",
+      "expected": [
+        "ANSWER"
+      ],
+      "proposed": "ANSWER",
+      "actual": "ANSWER",
+      "decision_ok": true,
+      "sources_ok": true,
+      "mentions_ok": true,
+      "missing_mentions": [],
+      "overridden": false,
+      "duration_ms": 2,
+      "cost_usd": 0.0,
+      "response": "Since TideRate 3.3, lines imported from the pricing workbench start as DRAFT and must be published by a Pricing Manager before they can be quoted. A DRAFT line must not be quoted, confirmed to a customer or booked, and QuotePort no longer creates quotes on DRAFT lines. Quotes created on such lines before the upgrade may still exist: do not book them, escalate them to the Pricing Manager.",
+      "error": null
+    },
+    {
+      "ticket_id": 20,
+      "ticket_ref": "HC-2026-0020",
+      "note": "Confirm an ACTIVE line",
+      "expected": [
+        "ANSWER"
+      ],
+      "proposed": "ANSWER",
+      "actual": "ANSWER",
+      "decision_ok": true,
+      "sources_ok": null,
+      "mentions_ok": true,
+      "missing_mentions": [],
+      "overridden": false,
+      "duration_ms": 2,
+      "cost_usd": 0.0,
+      "response": "Confirmed. PL-2026-047 line 7 (Genoa to Singapore, FAK) is ACTIVE and valid from 1 Oct to 31 Dec 2026. Its 40HC rate is USD 2,050. PL-2026-047 is an all-in price list, so this is also the price the customer sees: no surcharge is added on top.",
+      "error": null
+    },
+    {
+      "ticket_id": 21,
+      "ticket_ref": "HC-2026-0021",
+      "note": "Slowness: IT service desk, not hypercare",
+      "expected": [
+        "ANSWER",
+        "ESCALATE"
+      ],
+      "proposed": "ESCALATE",
+      "actual": "ESCALATE",
+      "decision_ok": true,
+      "sources_ok": null,
+      "mentions_ok": null,
+      "missing_mentions": [],
+      "overridden": false,
+      "duration_ms": 2,
+      "cost_usd": 0.0,
+      "response": "Hypercare does not manage application incidents, and the documentation cannot tell whether one is ongoing. Please check the IT status page; the ticket is escalated to the IT service desk (servicedesk@northwind.example), which handles slowness and outages.",
+      "error": null
+    },
+    {
+      "ticket_id": 22,
+      "ticket_ref": "HC-2026-0022",
+      "note": "Volume discount",
+      "expected": [
+        "ESCALATE"
+      ],
+      "proposed": "ESCALATE",
+      "actual": "ESCALATE",
+      "decision_ok": true,
+      "sources_ok": null,
+      "mentions_ok": null,
+      "missing_mentions": [],
+      "overridden": false,
+      "duration_ms": 25,
+      "cost_usd": 0.0,
+      "response": "Hypercare cannot apply a volume discount: discounts, volume deals and special rates are decided by the Pricing Manager. The ticket is escalated with the context: 40 containers Marseille to Singapore next quarter; the current ACTIVE line is PL-2026-047 line 5, all-in USD 2,100 per 40HC, valid until 31 Jan 2027. Do not promise a discount to Riviera Tiles before the Pricing Manager answers.",
+      "error": null
+    },
+    {
+      "ticket_id": 23,
+      "ticket_ref": "HC-2026-0023",
+      "note": "No reference",
+      "expected": [
+        "ASK_CLARIFICATION"
+      ],
+      "proposed": "ASK_CLARIFICATION",
+      "actual": "ASK_CLARIFICATION",
+      "decision_ok": true,
+      "sources_ok": null,
+      "mentions_ok": null,
+      "missing_mentions": [],
+      "overridden": false,
+      "duration_ms": 1,
+      "cost_usd": 0.0,
+      "response": "This ticket has no reference we can investigate (no quote, booking, route or price line). To check it without guessing, please send: The quote (QS-...) or booking (BK-...) reference; The route: port or inland point of loading and port of discharge; The equipment type and the date or period concerned.",
+      "error": null
+    },
+    {
+      "ticket_id": 24,
+      "ticket_ref": "HC-2026-0024",
+      "note": "No reference",
+      "expected": [
+        "ASK_CLARIFICATION"
+      ],
+      "proposed": "ASK_CLARIFICATION",
+      "actual": "ASK_CLARIFICATION",
+      "decision_ok": true,
+      "sources_ok": null,
+      "mentions_ok": null,
+      "missing_mentions": [],
+      "overridden": false,
+      "duration_ms": 1,
+      "cost_usd": 0.0,
+      "response": "This ticket has no reference we can investigate (no quote, booking, route or price line). To check it without guessing, please send: The quote (QS-...) or booking (BK-...) reference; The route: port or inland point of loading and port of discharge; The equipment type and the date or period concerned.",
+      "error": null
+    },
+    {
+      "ticket_id": 25,
+      "ticket_ref": "HC-2026-0025",
+      "note": "Answer found in a video transcript",
+      "expected": [
+        "ANSWER"
+      ],
+      "proposed": "ANSWER",
+      "actual": "ANSWER",
+      "decision_ok": true,
+      "sources_ok": true,
+      "mentions_ok": true,
+      "missing_mentions": [],
+      "overridden": false,
+      "duration_ms": 2,
+      "cost_usd": 0.0,
+      "response": "From the dynamic pricing demo video: dynamic prices are recalculated every six hours from vessel utilisation and recent bookings. They never go below the floor price, which is the higher of two values: the cost of the voyage leg plus the minimum margin of 8 percent, or 90 percent of the published ACTIVE rate. Dynamic pricing is in beta on the North Europe to Asia trade only (TideRate 3.3).",
+      "error": null
+    },
+    {
+      "ticket_id": 26,
+      "ticket_ref": "HC-2026-0026",
+      "note": "Surcharge definitions",
+      "expected": [
+        "ANSWER"
+      ],
+      "proposed": "ANSWER",
+      "actual": "ANSWER",
+      "decision_ok": true,
+      "sources_ok": true,
+      "mentions_ok": true,
+      "missing_mentions": [],
+      "overridden": false,
+      "duration_ms": 2,
+      "cost_usd": 0.0,
+      "response": "BAF (bunker adjustment factor) covers fuel price changes; LSS (low sulphur surcharge) covers the extra cost of low-sulphur fuel required by emission rules. Both are charged per container on top of the base rate. The customer always sees an all-in price in QuotePort, so the line's surcharges are included in the quoted price. On price lists published all-in, the rates already contain every surcharge and nothing is added on top.",
+      "error": null
+    },
+    {
+      "ticket_id": 27,
+      "ticket_ref": "HC-2026-0027",
+      "note": "Expired quote must be requoted",
+      "expected": [
+        "ANSWER"
+      ],
+      "proposed": "ANSWER",
+      "actual": "ANSWER",
+      "decision_ok": true,
+      "sources_ok": true,
+      "mentions_ok": true,
+      "missing_mentions": [],
+      "overridden": false,
+      "duration_ms": 2,
+      "cost_usd": 0.0,
+      "response": "No. QS-10150 (USD 2,050 per 40HC) expired on 4 Oct 2026 and an expired quote cannot be converted to a booking; it was also built on PL-2026-041 line 10, which expired on 30 Sep. Create a new quote: it will use the current ACTIVE line, PL-2026-041 line 12 (valid until 31 Dec 2026), at 1,850 + BAF 220 + LSS 80 = USD 2,150 all-in per 40HC.",
+      "error": null
+    },
+    {
+      "ticket_id": 29,
+      "ticket_ref": "HC-2026-0029",
+      "note": "Expired line: point to the current one",
+      "expected": [
+        "ANSWER"
+      ],
+      "proposed": "ANSWER",
+      "actual": "ANSWER",
+      "decision_ok": true,
+      "sources_ok": null,
+      "mentions_ok": true,
+      "missing_mentions": [],
+      "overridden": false,
+      "duration_ms": 2,
+      "cost_usd": 0.0,
+      "response": "No, PL-2026-061 line 4 (Valencia to Shanghai, USD 1,900 per 40HC) expired on 31 Oct 2026 and can no longer be used for new quotes. The current ACTIVE line is PL-2026-061 line 5, USD 2,000 per 40HC, valid from 1 Nov 2026 to 31 Jan 2027. PL-2026-061 is an all-in price list, so that is the price the customer will see.",
+      "error": null
+    },
+    {
+      "ticket_id": 30,
+      "ticket_ref": "HC-2026-0030",
+      "note": "Routing data owner",
+      "expected": [
+        "ANSWER"
+      ],
+      "proposed": "ANSWER",
+      "actual": "ANSWER",
+      "decision_ok": true,
+      "sources_ok": true,
+      "mentions_ok": true,
+      "missing_mentions": [],
+      "overridden": false,
+      "duration_ms": 2,
+      "cost_usd": 0.0,
+      "response": "Routing data is managed by the routing support team (routing-support@northwind.example). Send them the missing route, Genoa to Port Klang; missing or wrong routes are usually fixed within one business day.",
+      "error": null
+    }
+  ]
+}

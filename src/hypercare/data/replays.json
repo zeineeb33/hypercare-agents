@@ -1,0 +1,1909 @@
+{
+ "knowledge.answer:02736c0d6e9d12c64858a193": {
+  "output": {
+   "answer": "Yes. Door pickup from Dijon to Rotterdam is an INL00 pre-carriage charge. Per the inland tariff guide (v1.3), confirm that no valid rate exists in the inland tariff table, then request it from the inland pricing team (inland-pricing@northwind.example) with the inland point, gateway port, charge code, equipment sizes, the date from which it is needed and the related quote or ticket. They load it within two business days; QuotePort then adds it automatically to new quotes, and in the meantime the customer should be told the inland leg is not yet priced.",
+   "confidence": "HIGH",
+   "insufficient_evidence": false,
+   "sources_used": [
+    "guide_inland_tariff.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:0ef51df367ee1440284a2afe": {
+  "output": {
+   "answer": "The documents explain that pre-carriage is charged as INL00 and how to check whether a valid rate exists in the inland tariff table (guide_inland_tariff.md, v1.2), and that inland rates are managed in TideRate (release_notes_3_2.md). None of them says who can add a missing inland rate or how to request it.",
+   "confidence": "MEDIUM",
+   "insufficient_evidence": true,
+   "sources_used": [
+    "guide_inland_tariff.md",
+    "release_notes_3_2.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:0fdacb065b9c570b654721c2": {
+  "output": {
+   "answer": "Neither should be chosen by hypercare. Two ACTIVE lines for the same route and commodity must not overlap in time; when they do, hypercare must not choose between them and must escalate to the Pricing desk, which closes one of the lines (rules_price_line_lifecycle.md, v1.4).",
+   "confidence": "HIGH",
+   "insufficient_evidence": false,
+   "sources_used": [
+    "rules_price_line_lifecycle.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:14587818fd1291ec96acc5aa": {
+  "output": {
+   "answer": "The inland tariff guide (v1.2) only describes how to check an INL00 or INL50 rate: filter the inland tariff table on the inland point and gateway port, and check that a valid rate exists. It does not say what to do when the rate is missing or who can add it. Release notes 3.2 confirm that inland rates are managed in TideRate, but no request process is documented.",
+   "confidence": "MEDIUM",
+   "insufficient_evidence": true,
+   "sources_used": [
+    "guide_inland_tariff.md",
+    "release_notes_3_2.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:1534f474d2276556350f349c": {
+  "output": {
+   "answer": "The documentation explains that the trucking from Lyon to Le Havre is charged as INL00 (pre-carriage) and how to check that an INL00 rate exists and is valid in the inland tariff table; when it is valid, QuotePort adds it automatically (guide_inland_tariff.md, v1.2). It does not explain how to get a missing inland rate added, nor who owns the inland tariff table. That part of the process is not documented.",
+   "confidence": "MEDIUM",
+   "insufficient_evidence": true,
+   "sources_used": [
+    "guide_inland_tariff.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:18d7d95820408c850dd59c3f": {
+  "output": {
+   "answer": "Use the procedure in the inland tariff guide (v1.3, Requesting a missing inland rate). Confirm in the inland tariff table that no INL00 rate for Lyon to Le Havre is valid on the quote date, then send the request to the inland pricing team (inland-pricing@northwind.example) with the inland point, gateway port, charge code INL00, equipment sizes, the date from which the rate is needed and the quote reference (QS-10250). Until the rate is loaded, tell the customer the inland leg is not yet priced. The team loads it within two business days; QuotePort then adds it automatically, so create a new quote and check the inland charge appears as a separate line.",
+   "confidence": "HIGH",
+   "insufficient_evidence": false,
+   "sources_used": [
+    "guide_inland_tariff.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:2121770a6b3c412db8f8d05c": {
+  "output": {
+   "answer": "The SOC flag marks a price line for shipper-owned containers: it applies when the customer ships in its own container instead of Northwind equipment (flag introduced in TideRate 3.2). SOC rates are lower because Northwind does not provide, reposition or maintain the container. On Le Havre to Shanghai the SOC line is usually 150 to 250 USD below the standard 40HC rate. Note that SOC lines only accept general cargo (rules_special_cargo.md, v2.1).",
+   "confidence": "HIGH",
+   "insufficient_evidence": false,
+   "sources_used": [
+    "rules_special_cargo.md",
+    "release_notes_3_2.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:24b765bbba3169b83baf0500": {
+  "output": {
+   "answer": "The documentation confirms that the Lyon to gateway leg is charged as INL00 pre-carriage and that QuotePort adds it only when a valid rate exists in the inland tariff table (guide_inland_tariff.md, v1.2). It does not describe how to get a missing inland rate loaded or who is responsible for it, so the documents cannot resolve this request.",
+   "confidence": "MEDIUM",
+   "insufficient_evidence": true,
+   "sources_used": [
+    "guide_inland_tariff.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:2824677e8f62a8ebfc054ee1": {
+  "output": {
+   "answer": "The release notes are in the knowledge base under Release notes (faq_hypercare.md). TideRate 3.2 introduced the SOC flag on price lines, a surcharge breakdown (BAF, LSS, CAF, PSS, HAZ) on the quote PDF, and the inland tariff table for INL00 and INL50 rates; it also fixed all-in price lists adding surcharges twice (release_notes_3_2.md).",
+   "confidence": "HIGH",
+   "insufficient_evidence": false,
+   "sources_used": [
+    "faq_hypercare.md",
+    "release_notes_3_2.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:2dff5ab781357f77edc3cc11": {
+  "output": {
+   "answer": "No. Hazardous cargo cannot be quoted on a SOC line: SOC lines only accept general cargo and are not approved for dangerous goods (rules_special_cargo.md, v2.1). Flammable liquids (IMO class 3) must be quoted on a price line flagged HAZ, where a HAZ surcharge is added to the base rate and a dangerous goods declaration is required before booking. If the customer insists on using its own container for hazardous cargo, the request has to go to the Pricing desk for a special rate; otherwise quote the cargo on a HAZ line with Northwind equipment.",
+   "confidence": "HIGH",
+   "insufficient_evidence": false,
+   "sources_used": [
+    "rules_special_cargo.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:3ffb68635b87940c8a5878ea": {
+  "output": {
+   "answer": "When no valid INL00 rate exists, the inland tariff guide (v1.3) now describes what to do: confirm the gap for Strasbourg and Antwerp in the inland tariff table, then request the rate from the inland pricing team (inland-pricing@northwind.example) with the inland point, gateway port, charge code (INL00), equipment sizes, the date from which the rate is needed and the affected quote or ticket references. Tell the customer the inland leg is not yet priced until the rate is loaded, which takes up to two business days; QuotePort then adds it automatically to new quotes.",
+   "confidence": "HIGH",
+   "insufficient_evidence": false,
+   "sources_used": [
+    "guide_inland_tariff.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:57afe688161e5945d67d2aec": {
+  "output": {
+   "answer": "This ticket reports a resolved issue rather than a question. To confirm the fix, check in the inland tariff table that an INL00 rate exists for Lille and its gateway port and is valid on the quote date; once valid, QuotePort adds it automatically to quotes, as a separate line in the quote breakdown (guide_inland_tariff.md, v1.2).",
+   "confidence": "MEDIUM",
+   "insufficient_evidence": false,
+   "sources_used": [
+    "guide_inland_tariff.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:5e160e1e2679e8b0a026caa3": {
+  "output": {
+   "answer": "QuotePort returns no offer because lithium batteries are not in the commodity list. Send the commodity request form to the commodity data team (commodity-data@northwind.example) with the commodity name, HS code and the IMO class; lead time is two business days. Lithium batteries are IMO class 9 dangerous goods, so once added they can only be quoted on a HAZ line, with a HAZ surcharge and a dangerous goods declaration before booking (guide_commodity_list.md v1.1, rules_special_cargo.md v2.1).",
+   "confidence": "HIGH",
+   "insufficient_evidence": false,
+   "sources_used": [
+    "guide_commodity_list.md",
+    "rules_special_cargo.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:65011f056c03252bca41c177": {
+  "output": {
+   "answer": "Follow the procedure in the inland tariff guide (v1.2, section Requesting a missing inland rate). First confirm that no INL00 rate for Lyon to Le Havre is valid on the quote date in the inland tariff table. Then request it from the inland pricing team (inland-pricing@northwind.example), giving the inland point (Lyon), the gateway port (Le Havre), the charge code INL00, the equipment sizes, the date from which the rate is needed and the affected quote (QS-10250). Until it is loaded, tell the customer the inland leg is not yet priced. The team loads the rate within two business days; once it is valid, QuotePort adds it automatically, so create a new quote and check that the inland charge appears as a separate line.",
+   "confidence": "HIGH",
+   "insufficient_evidence": false,
+   "sources_used": [
+    "guide_inland_tariff.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:6af14f5f3a1aa6fd4fc359df": {
+  "output": {
+   "answer": "A pricing question that the documentation does not answer goes to the Pricing desk (pricing-desk@northwind.example). Rate confirmation or booking on a DRAFT line, and discounts, volume deals or special rates (including HAZ in SOC), go to the Pricing Manager. Include the ticket reference, the price line or quote reference and what was already checked (process_escalation.md, v1.3).",
+   "confidence": "HIGH",
+   "insufficient_evidence": false,
+   "sources_used": [
+    "process_escalation.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:6c3257fba8d584c9aeed1fcf": {
+  "output": {
+   "answer": "An accepted quote is normally converted with Convert to booking in QuotePort (guide_quote_to_booking.md, v2.0). However, a quote built on a DRAFT line must not be booked: DRAFT lines are not published and cannot be quoted, confirmed or booked (rules_price_line_lifecycle.md, v1.4). Since TideRate 3.3, QuotePort blocks new quotes on DRAFT lines, but quotes created before the upgrade may still exist and must be escalated to the Pricing Manager (release_notes_3_3.md). Check the status of the line behind QS-10245 before booking.",
+   "confidence": "HIGH",
+   "insufficient_evidence": false,
+   "sources_used": [
+    "guide_quote_to_booking.md",
+    "rules_price_line_lifecycle.md",
+    "release_notes_3_3.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:70202baca862da4182333eac": {
+  "output": {
+   "answer": "Hypercare may confirm a rate only if the price line is ACTIVE and valid on the quote date; requests on a DRAFT line go to the Pricing Manager (rules_price_line_lifecycle.md, v1.4). The line rate is the base ocean freight, while the customer sees an all-in price (base rate plus surcharges), unless the price list is published all-in (rules_all_in_vs_base_rate.md, v3.0). The status, validity and amount of PL-2026-047 line 7 must be read from the data; the documents do not contain them.",
+   "confidence": "HIGH",
+   "insufficient_evidence": false,
+   "sources_used": [
+    "rules_price_line_lifecycle.md",
+    "rules_all_in_vs_base_rate.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:771d909f62da838b2e892894": {
+  "output": {
+   "answer": "The documentation describes how prices change over time: when a price line expires and a new line replaces it, quotes made after the change use the new rate, while quotes already sent keep their price until their own validity date (rules_price_line_lifecycle.md, v1.4). An expired quote cannot be converted; a new quote uses the current ACTIVE line, so its price may differ (guide_quote_to_booking.md, v2.0). This is the likely explanation, but the documents cannot confirm which lines QS-10198 and QS-10240 were built on; the price-line history has to be checked in the data.",
+   "confidence": "MEDIUM",
+   "insufficient_evidence": false,
+   "sources_used": [
+    "rules_price_line_lifecycle.md",
+    "guide_quote_to_booking.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:892a01f12072fecd6ff2096e": {
+  "output": {
+   "answer": "Not necessarily. The price line shows the base ocean freight, but QuotePort always quotes an all-in price per container: the base rate plus the line's surcharges (BAF, LSS, CAF, PSS, and HAZ for hazardous cargo). A quote is therefore normally higher than the line rate (rules_all_in_vs_base_rate.md, v3.0). Only lines in a price list published all-in (charges_included) add nothing on top. The surcharges attached to this specific line need to be checked to confirm that they explain the 220 USD difference.",
+   "confidence": "HIGH",
+   "insufficient_evidence": false,
+   "sources_used": [
+    "rules_all_in_vs_base_rate.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:8a9e3aeaaab9643574affaac": {
+  "output": {
+   "answer": "To turn a quote into a booking: open the quote in QuotePort and check that its status is ACCEPTED or PENDING, click Convert to booking and select a voyage, then confirm the equipment and quantity. The booking total is the quoted all-in price per container multiplied by the number of containers. A quote is valid for 14 days from its creation date (the validity date is printed on the quote). An expired quote cannot be converted: create a new quote, which uses the current ACTIVE price line, so the price may differ (guide_quote_to_booking.md, v2.0).",
+   "confidence": "HIGH",
+   "insufficient_evidence": false,
+   "sources_used": [
+    "guide_quote_to_booking.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:9506024ef8c42f775c77e25a": {
+  "output": {
+   "answer": "No. An expired quote cannot be converted to a booking. A new quote must be created; it uses the current ACTIVE price line, so the price may differ from the expired quote (guide_quote_to_booking.md, v2.0). Rates can only be confirmed from a line that is ACTIVE and valid on the quote date (rules_price_line_lifecycle.md, v1.4).",
+   "confidence": "HIGH",
+   "insufficient_evidence": false,
+   "sources_used": [
+    "guide_quote_to_booking.md",
+    "rules_price_line_lifecycle.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:971734223d5e2ebea124ad83": {
+  "output": {
+   "answer": "Hypercare cannot grant it. Discounts, volume deals and special rates are escalated to the Pricing Manager, with the ticket reference, the price line or quote reference and what was already checked (process_escalation.md, v1.3).",
+   "confidence": "HIGH",
+   "insufficient_evidence": false,
+   "sources_used": [
+    "process_escalation.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:99fa0dc9af392b56e8df59e0": {
+  "output": {
+   "answer": "According to the dynamic pricing demo video (v1.0), dynamic prices are recalculated every six hours from vessel utilisation and recent bookings. The price never goes below the floor price, which is the higher of two values: the cost of the voyage leg plus the minimum margin of 8 percent, and 90 percent of the published ACTIVE rate. Dynamic pricing is in beta on the North Europe to Asia trade only (TideRate 3.3).",
+   "confidence": "HIGH",
+   "insufficient_evidence": false,
+   "sources_used": [
+    "video_dynamic_pricing_demo.md",
+    "release_notes_3_3.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:9b14b89832c48c3ac14398e2": {
+  "output": {
+   "answer": "Since TideRate 3.3, lines imported from the pricing workbench start as DRAFT and must be published by a Pricing Manager before they can be quoted. QuotePort no longer creates quotes on DRAFT lines; quotes created on such lines before the upgrade may still exist and must not be booked, they are escalated to the Pricing Manager (release_notes_3_3.md). A DRAFT line is not published: it must not be quoted, confirmed to a customer or booked (rules_price_line_lifecycle.md, v1.4).",
+   "confidence": "HIGH",
+   "insufficient_evidence": false,
+   "sources_used": [
+    "release_notes_3_3.md",
+    "rules_price_line_lifecycle.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:b34805e35cc5d5e11d5285e2": {
+  "output": {
+   "answer": "Door pickup from Dijon to Rotterdam would be an INL00 pre-carriage charge, which QuotePort adds automatically only when a valid rate exists in the inland tariff table (guide_inland_tariff.md, v1.2). The documentation explains how to check for that rate but describes no process to request a missing inland rate.",
+   "confidence": "MEDIUM",
+   "insufficient_evidence": true,
+   "sources_used": [
+    "guide_inland_tariff.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:c179109a72b51e9fb6d91a0c": {
+  "output": {
+   "answer": "The inland tariff guide (v1.2) now describes the process: confirm that no INL00 rate for Lyon to Le Havre is valid on the quote date, then request the rate with the inland point, gateway port, charge code (INL00), equipment sizes, the date from which it is needed and the affected quote (QS-10250). Until it is loaded, tell the customer the inland leg is not priced; once loaded, QuotePort adds it automatically and a new quote shows it as a separate line. However, the guide does not say who to send the request to (the owner is still a placeholder), nor the lead time, so the question is only partly answered.",
+   "confidence": "MEDIUM",
+   "insufficient_evidence": true,
+   "sources_used": [
+    "guide_inland_tariff.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:c8d54e4c765d5604a24620e1": {
+  "output": {
+   "answer": "BAF (bunker adjustment factor) covers fuel price changes; LSS (low sulphur surcharge) covers the extra cost of the low-sulphur fuel required by emission rules. Both are added per container on top of the base rate. The customer always sees an all-in price in QuotePort, so the surcharges of the line are included in the quoted price. On price lists published all-in (charges_included), the rates already contain every surcharge and nothing is added on top (rules_all_in_vs_base_rate.md, v3.0).",
+   "confidence": "HIGH",
+   "insufficient_evidence": false,
+   "sources_used": [
+    "rules_all_in_vs_base_rate.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:ca7ce204a6fd59a2d98c88dc": {
+  "output": {
+   "answer": "Routing data is managed by the routing support team (routing-support@northwind.example). Missing or wrong routes in the routing tool are fixed by them, usually within one business day (faq_hypercare.md, v1.5).",
+   "confidence": "HIGH",
+   "insufficient_evidence": false,
+   "sources_used": [
+    "faq_hypercare.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:d0759483c50673ee4f3ef165": {
+  "output": {
+   "answer": "Both figures can be correct. The rate on a price line is the base ocean freight, while QuotePort always shows the customer an all-in price per container: the base rate plus the surcharges of the line. The documentation gives this exact case as an example: a 40HC base rate of 1,850 USD plus BAF 220 USD and LSS 80 USD gives a quoted all-in price of 2,150 USD (rules_all_in_vs_base_rate.md, v3.0). The exception is a price list published all-in (flag charges_included), where no surcharge is added. Whether PL-2026-041 line 12 carries these surcharges must be confirmed in the data.",
+   "confidence": "HIGH",
+   "insufficient_evidence": false,
+   "sources_used": [
+    "rules_all_in_vs_base_rate.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:d2b65d901c5a04a5a21c6e59": {
+  "output": {
+   "answer": "The inland tariff guide (v1.3) now covers this case. Confirm in the inland tariff table that no INL00 rate for Lyon is valid on the quote date, then request it from the inland pricing team (inland-pricing@northwind.example) with the inland point, gateway port, charge code INL00, equipment sizes, the date from which it is needed and the affected quotes or tickets. Until it is loaded (within two business days), tell customers the inland leg is not yet priced; afterwards QuotePort adds it automatically, so the affected quotes must be recreated.",
+   "confidence": "HIGH",
+   "insufficient_evidence": false,
+   "sources_used": [
+    "guide_inland_tariff.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:d6b7df137629ed5d0c7bd41e": {
+  "output": {
+   "answer": "A rate can be confirmed only if the price line is ACTIVE and valid on the quote date (rules_price_line_lifecycle.md, v1.4). If the line is no longer valid, new quotes use the current ACTIVE price line instead, so the price may differ (guide_quote_to_booking.md, v2.0). The documents do not give the status of PL-2026-061 line 4; it must be checked in the data.",
+   "confidence": "MEDIUM",
+   "insufficient_evidence": false,
+   "sources_used": [
+    "rules_price_line_lifecycle.md",
+    "guide_quote_to_booking.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:d98e40b885ee9c273b34d96d": {
+  "output": {
+   "answer": "The documentation says what to do but not whether an incident is ongoing. For slowness or outages, check the IT status page and open an incident with the IT service desk (servicedesk@northwind.example); hypercare does not manage application incidents (faq_hypercare.md v1.5, process_escalation.md v1.3). Whether there is a known incident this morning is not in the documents.",
+   "confidence": "MEDIUM",
+   "insufficient_evidence": true,
+   "sources_used": [
+    "faq_hypercare.md",
+    "process_escalation.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:def764a5734d0ae705b023fe": {
+  "output": {
+   "answer": "The inland pricing team adds missing inland rates (guide_inland_tariff.md, v1.3). Send them (inland-pricing@northwind.example) the inland point (Toulouse), the gateway port (Marseille), the charge code INL00, the equipment sizes, the date from which the rate is needed and the affected quote or ticket references. They load the rate within two business days; once it is valid in the inland tariff table, QuotePort adds it automatically to new quotes.",
+   "confidence": "HIGH",
+   "insufficient_evidence": false,
+   "sources_used": [
+    "guide_inland_tariff.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:e8932c093591df10900bc8ae": {
+  "output": {
+   "answer": "Per the documentation, the booking total is the quoted all-in price per container multiplied by the number of containers (guide_quote_to_booking.md, v2.0). The all-in price is the base rate plus the line's surcharges, so it is higher than the base rate on the price line; the documented example is a 1,850 USD base 40HC rate plus BAF 220 and LSS 80, giving 2,150 USD (rules_all_in_vs_base_rate.md, v3.0). A total of 4,300 USD would match two containers at 2,150 USD; the quantity and quoted price must be confirmed in the booking and quote data.",
+   "confidence": "HIGH",
+   "insufficient_evidence": false,
+   "sources_used": [
+    "guide_quote_to_booking.md",
+    "rules_all_in_vs_base_rate.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.answer:eea7f4addbed7b68050abe3f": {
+  "output": {
+   "answer": "Hypercare may confirm a rate to sales only if the price line is ACTIVE and valid on the quote date. A request to confirm or book on a DRAFT line must be escalated to the Pricing Manager (rules_price_line_lifecycle.md, v1.4). The documents do not say which status PL-2026-052 line 7 has, so the line's status and validity must be checked before anything is confirmed. Remember also that the customer sees an all-in price (base rate plus surcharges), not the base rate alone (rules_all_in_vs_base_rate.md, v3.0).",
+   "confidence": "HIGH",
+   "insufficient_evidence": false,
+   "sources_used": [
+    "rules_price_line_lifecycle.md",
+    "rules_all_in_vs_base_rate.md"
+   ]
+  },
+  "task": "knowledge.answer",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.plan:05bd3a62f12552c1781c7528": {
+  "output": {
+   "queries": [
+    "confirm rate price line status",
+    "DRAFT price line confirmation",
+    "price line ACTIVE validity"
+   ]
+  },
+  "task": "knowledge.plan",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.plan:088ffbbdd6f8e267dce5ee89": {
+  "output": {
+   "queries": [
+    "confirm rate price line ACTIVE",
+    "rate confirmation rules"
+   ]
+  },
+  "task": "knowledge.plan",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.plan:1c2f80f99d4eb3e13e0ddb53": {
+  "output": {
+   "queries": [
+    "routing data owner",
+    "missing route routing tool"
+   ]
+  },
+  "task": "knowledge.plan",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.plan:235ac1b51ae73eda36d3d48f": {
+  "output": {
+   "queries": [
+    "SOC flag shipper-owned container meaning",
+    "SOC rate lower than standard rate"
+   ]
+  },
+  "task": "knowledge.plan",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.plan:32892f1d521ee23bf08fecd1": {
+  "output": {
+   "queries": [
+    "INL00 pre-carriage rate missing inland tariff",
+    "inland rate not in table what to do"
+   ]
+  },
+  "task": "knowledge.plan",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.plan:35142ebcde46dc4117f3b255": {
+  "output": {
+   "queries": [
+    "volume discount special rate",
+    "discount escalation pricing manager",
+    "all-in price list"
+   ]
+  },
+  "task": "knowledge.plan",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.plan:4374fbfbbe0face0350f2564": {
+  "output": {
+   "queries": [
+    "commodity missing no offer",
+    "request new commodity",
+    "dangerous goods commodity HAZ line"
+   ]
+  },
+  "task": "knowledge.plan",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.plan:58799b130ddae70ed37128bc": {
+  "output": {
+   "queries": [
+    "hazardous cargo HAZ line requirements",
+    "shipper-owned container SOC line hazardous",
+    "dangerous goods SOC HAZ combination"
+   ]
+  },
+  "task": "knowledge.plan",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.plan:5daebbecfd12a72dcb7884c0": {
+  "output": {
+   "queries": [
+    "quote higher than price line rate",
+    "base rate surcharges all-in price",
+    "BAF LSS added to quote"
+   ]
+  },
+  "task": "knowledge.plan",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.plan:6283556d3620081f5687a80d": {
+  "output": {
+   "queries": [
+    "TideRate 3.2 release notes"
+   ]
+  },
+  "task": "knowledge.plan",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.plan:6804b7e155797bbd5ccbb8d9": {
+  "output": {
+   "queries": [
+    "expired quote booking",
+    "requote expired quote current price line"
+   ]
+  },
+  "task": "knowledge.plan",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.plan:69b9d037bfd7c60c33690ede": {
+  "output": {
+   "queries": [
+    "convert quote to booking",
+    "quote validity period"
+   ]
+  },
+  "task": "knowledge.plan",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.plan:74f89f73f086d548e96839d2": {
+  "output": {
+   "queries": [
+    "escalation process pricing question",
+    "pricing desk contact"
+   ]
+  },
+  "task": "knowledge.plan",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.plan:75ea1c2c9f8d5fd0535f32ab": {
+  "output": {
+   "queries": [
+    "expired price line new rate",
+    "rate change between quotes",
+    "quote validity price change"
+   ]
+  },
+  "task": "knowledge.plan",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.plan:792eae4318eb25bc2cb36c11": {
+  "output": {
+   "queries": [
+    "expired price line quoting",
+    "price line validity status confirm"
+   ]
+  },
+  "task": "knowledge.plan",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.plan:7965ba6e63224b0eb4cfd2b8": {
+  "output": {
+   "queries": [
+    "dynamic pricing floor price",
+    "dynamic price refresh frequency"
+   ]
+  },
+  "task": "knowledge.plan",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.plan:7ae6582eb743b8aeb841ba98": {
+  "output": {
+   "queries": [
+    "quote higher than price line base rate",
+    "surcharges added all-in price quote"
+   ]
+  },
+  "task": "knowledge.plan",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.plan:93103c30a94dda2edef2ac4b": {
+  "output": {
+   "queries": [
+    "inland tariff table missing pre-carriage rate",
+    "who adds inland rates"
+   ]
+  },
+  "task": "knowledge.plan",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.plan:979864d0bf8d86ef38e93516": {
+  "output": {
+   "queries": [
+    "INL00 pre-carriage missing inland tariff table",
+    "inland charge not added to quote"
+   ]
+  },
+  "task": "knowledge.plan",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.plan:b0f919df08915f9259979c33": {
+  "output": {
+   "queries": [
+    "booking total calculation quote",
+    "all-in price per container surcharges",
+    "base rate vs quoted price"
+   ]
+  },
+  "task": "knowledge.plan",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.plan:ca14531f703872eec145f35d": {
+  "output": {
+   "queries": [
+    "inland charge missing pre-carriage",
+    "request process inland rate"
+   ]
+  },
+  "task": "knowledge.plan",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.plan:d992aa05094056009dca9635": {
+  "output": {
+   "queries": [
+    "inland pre-carriage INL00 missing",
+    "request inland rate addition inland tariff table"
+   ]
+  },
+  "task": "knowledge.plan",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.plan:dcda39e53cfb02296710be0d": {
+  "output": {
+   "queries": [
+    "convert accepted quote to booking",
+    "quote created on DRAFT line booking",
+    "price line status booking allowed"
+   ]
+  },
+  "task": "knowledge.plan",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.plan:dfcfd43c587c470590a552bc": {
+  "output": {
+   "queries": [
+    "DRAFT status price lines 3.3",
+    "TideRate 3.3 release notes draft",
+    "publish DRAFT line pricing manager"
+   ]
+  },
+  "task": "knowledge.plan",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.plan:e1f6cf9f6066d82199141ee2": {
+  "output": {
+   "queries": [
+    "BAF bunker adjustment factor",
+    "LSS low sulphur surcharge",
+    "surcharges included all-in price customer"
+   ]
+  },
+  "task": "knowledge.plan",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.plan:e46c9752d44c2c131081ea70": {
+  "output": {
+   "queries": [
+    "inland pre-carriage rate missing",
+    "inland tariff table rate loaded"
+   ]
+  },
+  "task": "knowledge.plan",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.plan:e648f077f3ee4e5c5d022488": {
+  "output": {
+   "queries": [
+    "overlapping active price lines same route",
+    "which price line applies validity dates"
+   ]
+  },
+  "task": "knowledge.plan",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "knowledge.plan:e7b04051670943b929bcdee1": {
+  "output": {
+   "queries": [
+    "QuotePort slow incident",
+    "application outage IT service desk"
+   ]
+  },
+  "task": "knowledge.plan",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "maintenance.propose:502e3aab937aefda9ad834ef": {
+  "output": {
+   "proposed_content": "When the check above finds no valid INL00 (pre-carriage) or INL50 (on-carriage) rate, QuotePort cannot add the inland leg: the quote then covers the ocean freight only and understates the customer price.\n\n1. Confirm the gap: in the inland tariff table, filter on the inland point and the gateway port and check that no INL00 or INL50 rate is valid on the quote date.\n2. Request the rate from [inland tariff owner to confirm] with: the inland point, the gateway port, the charge code (INL00 or INL50), the equipment sizes (20' and/or 40'), the date from which the rate is needed and the affected quote or ticket references.\n3. Until the rate is loaded, do not present the quote as complete: tell the customer that the inland leg is not yet priced [customer communication rule to confirm].\n4. Once the rate is loaded (expected lead time: [lead time to confirm]), check again that it is valid in the inland tariff table. QuotePort then adds it automatically to new quotes from that inland point; create a new quote and check that the inland charge appears as a separate line in the quote breakdown.",
+   "proposed_title": "Requesting a missing inland rate",
+   "rationale": "Five open tickets (Lyon, Strasbourg, Toulouse, Dijon) ask what to do when the inland tariff table has no pre-carriage rate. The guide explains how to check a rate but not how to get a missing one added, so every such ticket currently has to be escalated.",
+   "sources_used": [
+    "guide_inland_tariff.md",
+    "release_notes_3_2.md"
+   ]
+  },
+  "task": "maintenance.propose",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "resolution.decide:04c77dc61f67fd3aef84cfc2": {
+  "output": {
+   "confidence": "HIGH",
+   "decision": "ESCALATE",
+   "evidence_used": [
+    "PL-2026-052 line 7 status DRAFT, valid from 1 Dec 2026"
+   ],
+   "missing_information": [
+    "Publication of PL-2026-052 line 7 by the Pricing Manager"
+   ],
+   "response": "I cannot confirm this rate. PL-2026-052 line 7 (Rotterdam to Santos, green coffee, 40HC USD 2,600) is a DRAFT line: it has not been published and must not be quoted or confirmed to a customer. Only the Pricing Manager can publish it. The ticket is escalated to the Pricing Manager; please do not send this rate to the customer in the meantime.",
+   "sources": [
+    "rules_price_line_lifecycle.md",
+    "PL-2026-052 line 7"
+   ]
+  },
+  "task": "resolution.decide",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "resolution.decide:07324d15f3df296b43855ae3": {
+  "output": {
+   "confidence": "HIGH",
+   "decision": "ANSWER",
+   "evidence_used": [
+    "Inland tariff table: no INL00 for FRDJN-NLRTM"
+   ],
+   "missing_information": [],
+   "response": "Yes. Door pickup from Dijon to Rotterdam is an INL00 pre-carriage charge, and the data confirms that no INL00 rate exists for Dijon (FRDJN) to Rotterdam (NLRTM). Request it from the inland pricing team (inland-pricing@northwind.example) with the inland point, gateway port, charge code INL00, equipment sizes, the date from which it is needed and the related quote. Until it is loaded, tell the customer the inland leg is not yet priced; the team loads rates within two business days, after which QuotePort adds it automatically to new quotes.",
+   "sources": [
+    "guide_inland_tariff.md",
+    "inland tariff table FRDJN-NLRTM"
+   ]
+  },
+  "task": "resolution.decide",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "resolution.decide:0d633d359374ae60e44ac321": {
+  "output": {
+   "confidence": "HIGH",
+   "decision": "ANSWER",
+   "evidence_used": [
+    "PL-2026-047 line 7: ACTIVE, 40HC 2050, valid 2026-10-01 to 2026-12-31, charges_included = 1"
+   ],
+   "missing_information": [],
+   "response": "Confirmed. PL-2026-047 line 7 (Genoa to Singapore, FAK) is ACTIVE and valid from 1 Oct to 31 Dec 2026. Its 40HC rate is USD 2,050. PL-2026-047 is an all-in price list, so this is also the price the customer sees: no surcharge is added on top.",
+   "sources": [
+    "rules_price_line_lifecycle.md",
+    "rules_all_in_vs_base_rate.md",
+    "PL-2026-047 line 7"
+   ]
+  },
+  "task": "resolution.decide",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "resolution.decide:163c1ab83314d4867b9604e3": {
+  "output": {
+   "confidence": "HIGH",
+   "decision": "ESCALATE",
+   "evidence_used": [
+    "Slowness and outages are handled by the IT service desk"
+   ],
+   "missing_information": [
+    "Current incident status from the IT service desk"
+   ],
+   "response": "Hypercare does not manage application incidents, and the documentation cannot tell whether one is ongoing. Please check the IT status page; the ticket is escalated to the IT service desk (servicedesk@northwind.example), which handles slowness and outages.",
+   "sources": [
+    "faq_hypercare.md",
+    "process_escalation.md"
+   ]
+  },
+  "task": "resolution.decide",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "resolution.decide:1ba9e59b2198d3ccf57fb486": {
+  "output": {
+   "confidence": "HIGH",
+   "decision": "ANSWER",
+   "evidence_used": [
+    "Refresh every six hours",
+    "Floor = max(cost + 8% margin, 90% of ACTIVE rate)"
+   ],
+   "missing_information": [],
+   "response": "From the dynamic pricing demo video: dynamic prices are recalculated every six hours from vessel utilisation and recent bookings. They never go below the floor price, which is the higher of two values: the cost of the voyage leg plus the minimum margin of 8 percent, or 90 percent of the published ACTIVE rate. Dynamic pricing is in beta on the North Europe to Asia trade only (TideRate 3.3).",
+   "sources": [
+    "video_dynamic_pricing_demo.md",
+    "release_notes_3_3.md"
+   ]
+  },
+  "task": "resolution.decide",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "resolution.decide:2392e93eacc0455e383753f6": {
+  "output": {
+   "confidence": "HIGH",
+   "decision": "ANSWER",
+   "evidence_used": [
+    "Inland tariff table: no INL00 for FRSXB-BEANR"
+   ],
+   "missing_information": [],
+   "response": "The inland tariff guide (v1.3) now covers this case. The data confirms that no INL00 rate exists for Strasbourg (FRSXB) to Antwerp (BEANR). Request it from the inland pricing team (inland-pricing@northwind.example) with the inland point, gateway port, charge code INL00, equipment sizes, the date from which it is needed and the affected quotes. Until it is loaded, tell the customer the inland leg is not yet priced. Rates are loaded within two business days; QuotePort then adds INL00 automatically to new quotes from Strasbourg.",
+   "sources": [
+    "guide_inland_tariff.md",
+    "inland tariff table FRSXB-BEANR"
+   ]
+  },
+  "task": "resolution.decide",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "resolution.decide:3467ec8875c74c819f3f14b7": {
+  "output": {
+   "confidence": "HIGH",
+   "decision": "ESCALATE",
+   "evidence_used": [
+    "QS-10245 built on priceline 7",
+    "PL-2026-052 line 7 status DRAFT"
+   ],
+   "missing_information": [
+    "Pricing Manager decision on PL-2026-052 line 7"
+   ],
+   "response": "Do not book it yet. Quote QS-10245 (3 x 40HC at USD 2,870 all-in) was created on PL-2026-052 line 7, which is still a DRAFT line and has not been published. A quote on a DRAFT line must not be booked; such quotes, created before TideRate 3.3 blocked them, must be escalated. The ticket is escalated to the Pricing Manager, who can publish the line or define the rate to use.",
+   "sources": [
+    "rules_price_line_lifecycle.md",
+    "release_notes_3_3.md",
+    "QS-10245",
+    "PL-2026-052 line 7"
+   ]
+  },
+  "task": "resolution.decide",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "resolution.decide:38055fc38552a4ce8d6b2540": {
+  "output": {
+   "confidence": "HIGH",
+   "decision": "ANSWER",
+   "evidence_used": [
+    "Routing support team owns routing data"
+   ],
+   "missing_information": [],
+   "response": "Routing data is managed by the routing support team (routing-support@northwind.example). Send them the missing route, Genoa to Port Klang; missing or wrong routes are usually fixed within one business day.",
+   "sources": [
+    "faq_hypercare.md"
+   ]
+  },
+  "task": "resolution.decide",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "resolution.decide:4b0c17f976ba9a4dfc75188a": {
+  "output": {
+   "confidence": "HIGH",
+   "decision": "ANSWER",
+   "evidence_used": [
+    "SOC lines only accept general cargo",
+    "Hazardous cargo cannot be quoted on a SOC line",
+    "IMO classes 1 to 9 require a HAZ line"
+   ],
+   "missing_information": [],
+   "response": "No, hazardous cargo cannot be quoted on a SOC line: SOC lines only accept general cargo and are not approved for dangerous goods. Flammable liquids (IMO class 3) must be quoted on a price line flagged HAZ, with Northwind equipment; a HAZ surcharge is added to the base rate and a dangerous goods declaration is required before booking. If the customer insists on shipping the hazardous cargo in its own container, that is a special rate: send the request to the Pricing desk.",
+   "sources": [
+    "rules_special_cargo.md"
+   ]
+  },
+  "task": "resolution.decide",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "resolution.decide:5551cc2c954c852519d9f6a0": {
+  "output": {
+   "confidence": "HIGH",
+   "decision": "ANSWER",
+   "evidence_used": [
+    "TideRate 3.3 DRAFT status",
+    "DRAFT line rules"
+   ],
+   "missing_information": [],
+   "response": "Since TideRate 3.3, lines imported from the pricing workbench start as DRAFT and must be published by a Pricing Manager before they can be quoted. A DRAFT line must not be quoted, confirmed to a customer or booked, and QuotePort no longer creates quotes on DRAFT lines. Quotes created on such lines before the upgrade may still exist: do not book them, escalate them to the Pricing Manager.",
+   "sources": [
+    "release_notes_3_3.md",
+    "rules_price_line_lifecycle.md"
+   ]
+  },
+  "task": "resolution.decide",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "resolution.decide:58dfe5e07c1c90e6ad7fc944": {
+  "output": {
+   "confidence": "HIGH",
+   "decision": "ANSWER",
+   "evidence_used": [
+    "BK-55012: 2 x 40HC, total 4300",
+    "QS-10231: 2150 per 40HC",
+    "PL-2026-041 line 12: base 1850, BAF 220, LSS 80"
+   ],
+   "missing_information": [],
+   "response": "The booking amount is correct. USD 1,850 is the base 40HC rate of PL-2026-041 line 12, not the price quoted to the customer. Quote QS-10231 is all-in: 1,850 + BAF 220 + LSS 80 = USD 2,150 per 40HC. Booking BK-55012 covers 2 x 40HC, so 2 x 2,150 = USD 4,300, as shown.",
+   "sources": [
+    "guide_quote_to_booking.md",
+    "rules_all_in_vs_base_rate.md",
+    "BK-55012",
+    "QS-10231",
+    "PL-2026-041 line 12"
+   ]
+  },
+  "task": "resolution.decide",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "resolution.decide:5cf94e9e7ca61e189895e3e5": {
+  "output": {
+   "confidence": "HIGH",
+   "decision": "ESCALATE",
+   "evidence_used": [
+    "PL-2026-055 line 2 and line 3 both ACTIVE on 2026-11-20"
+   ],
+   "missing_information": [
+    "Which line the Pricing desk keeps"
+   ],
+   "response": "The data confirms the overlap: PL-2026-055 line 2 (40HC USD 1,800, valid 15 Oct to 31 Dec 2026) and line 3 (40HC USD 1,880, valid 15 Nov 2026 to 15 Jan 2027) are both ACTIVE for Hamburg to Ningbo FAK on 20 November. Hypercare must not choose between overlapping lines. The ticket is escalated to the Pricing desk (pricing-desk@northwind.example), which will close one of the lines; wait for their decision before quoting.",
+   "sources": [
+    "rules_price_line_lifecycle.md",
+    "PL-2026-055 line 2",
+    "PL-2026-055 line 3"
+   ]
+  },
+  "task": "resolution.decide",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "resolution.decide:5d947113dc98a52e6befd0bc": {
+  "output": {
+   "confidence": "HIGH",
+   "decision": "ANSWER",
+   "evidence_used": [
+    "Convert to booking steps",
+    "14-day quote validity",
+    "Expired quotes must be requoted"
+   ],
+   "missing_information": [],
+   "response": "Open the quote in QuotePort and check that its status is ACCEPTED or PENDING, click Convert to booking, select a voyage, then confirm the equipment and quantity. The booking total is the quoted all-in price per container multiplied by the number of containers. A quote is valid for 14 days from its creation date; the validity date is printed on the quote. After that it cannot be converted: create a new quote, which uses the current ACTIVE price line, so the price may change.",
+   "sources": [
+    "guide_quote_to_booking.md"
+   ]
+  },
+  "task": "resolution.decide",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "resolution.decide:69cf04199ca1425eb919cb24": {
+  "output": {
+   "confidence": "HIGH",
+   "decision": "ANSWER",
+   "evidence_used": [
+    "PL-2026-041 line 12: ACTIVE, 40HC base 1850, BAF 220, LSS 80, all-in 2150",
+    "QS-10231: 40HC x2 at 2150, status BOOKED"
+   ],
+   "missing_information": [],
+   "response": "Both figures are correct. PL-2026-041 line 12 (ACTIVE, valid 1 Oct to 31 Dec 2026) shows the base ocean freight: USD 1,850 per 40HC. This price list is not all-in, so QuotePort adds the line's surcharges: BAF USD 220 and LSS USD 80. The all-in price shown to the customer is therefore 1,850 + 220 + 80 = USD 2,150 per container, which is exactly what quote QS-10231 says (valid until 26 Nov 2026, already booked).",
+   "sources": [
+    "rules_all_in_vs_base_rate.md",
+    "PL-2026-041 line 12",
+    "QS-10231"
+   ]
+  },
+  "task": "resolution.decide",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "resolution.decide:8002c0316acbe17a12e80048": {
+  "output": {
+   "confidence": "HIGH",
+   "decision": "ANSWER",
+   "evidence_used": [
+    "inland_rates FRLIL to FRLEH INL00: 420 / 560, valid 2026-07-01 to 2026-12-31"
+   ],
+   "missing_information": [],
+   "response": "Confirmed in the data: the inland tariff table now has an INL00 pre-carriage rate for Lille to Le Havre, USD 420 per 20' and USD 560 per 40', valid from 1 Jul to 31 Dec 2026. As the rate is valid, QuotePort adds it automatically to quotes from Lille, as a separate line in the quote breakdown. The ticket can stay resolved.",
+   "sources": [
+    "guide_inland_tariff.md",
+    "inland_rates FRLIL-FRLEH"
+   ]
+  },
+  "task": "resolution.decide",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "resolution.decide:865963aed40e8f2d42f03ee6": {
+  "output": {
+   "confidence": "HIGH",
+   "decision": "ANSWER",
+   "evidence_used": [
+    "Release notes location",
+    "TideRate 3.2 changes"
+   ],
+   "missing_information": [],
+   "response": "The release notes are in the knowledge base under Release notes. TideRate 3.2 added the SOC flag on price lines, a surcharge breakdown (BAF, LSS, CAF, PSS, HAZ) on the quote PDF, and the inland tariff table for INL00 and INL50 rates. It also fixed all-in price lists adding surcharges twice.",
+   "sources": [
+    "faq_hypercare.md",
+    "release_notes_3_2.md"
+   ]
+  },
+  "task": "resolution.decide",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "resolution.decide:8f22200e19e5767f85c3bc71": {
+  "output": {
+   "confidence": "HIGH",
+   "decision": "ANSWER",
+   "evidence_used": [
+    "Inland tariff table: no INL00 for FRLYS-FRLEH on 2026-11-16",
+    "QS-10250: 2370 = PL-2026-060 line 1 base 2150 + BAF 220"
+   ],
+   "missing_information": [],
+   "response": "Confirmed: there is no valid INL00 rate for Lyon to Le Havre in the inland tariff table, so QS-10250 (USD 2,370 per 40HC: base 2,150 + BAF 220) covers the ocean freight only. Send a rate request to the inland pricing team (inland-pricing@northwind.example) with: inland point Lyon (FRLYS), gateway Le Havre (FRLEH), charge code INL00, equipment 40HC, the date from which it is needed and QS-10250. Tell Lumen Lighting the inland leg is not yet priced. The team loads rates within two business days; then create a new quote and check that the inland charge appears as a separate line.",
+   "sources": [
+    "guide_inland_tariff.md",
+    "QS-10250",
+    "PL-2026-060 line 1"
+   ]
+  },
+  "task": "resolution.decide",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "resolution.decide:92b1dec50616a08fb5ebdbb3": {
+  "output": {
+   "confidence": "HIGH",
+   "decision": "ESCALATE",
+   "evidence_used": [
+    "Discounts are escalated to the Pricing Manager",
+    "PL-2026-047 line 5: ACTIVE, 2100 all-in, valid to 2027-01-31"
+   ],
+   "missing_information": [
+    "Pricing Manager decision on a volume deal"
+   ],
+   "response": "Hypercare cannot apply a volume discount: discounts, volume deals and special rates are decided by the Pricing Manager. The ticket is escalated with the context: 40 containers Marseille to Singapore next quarter; the current ACTIVE line is PL-2026-047 line 5, all-in USD 2,100 per 40HC, valid until 31 Jan 2027. Do not promise a discount to Riviera Tiles before the Pricing Manager answers.",
+   "sources": [
+    "process_escalation.md",
+    "PL-2026-047 line 5"
+   ]
+  },
+  "task": "resolution.decide",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "resolution.decide:95ad466c88ceb67166101f5f": {
+  "output": {
+   "confidence": "HIGH",
+   "decision": "ANSWER",
+   "evidence_used": [
+    "Escalation matrix"
+   ],
+   "missing_information": [],
+   "response": "Pricing questions that the documentation does not answer go to the Pricing desk (pricing-desk@northwind.example). Rate confirmation or booking on a DRAFT line, and discounts, volume deals or special rates (including HAZ in a SOC container), go to the Pricing Manager. When you escalate, include the ticket reference, the price line or quote reference and what you already checked.",
+   "sources": [
+    "process_escalation.md"
+   ]
+  },
+  "task": "resolution.decide",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "resolution.decide:97051251f3472198bb32da10": {
+  "output": {
+   "confidence": "HIGH",
+   "decision": "ANSWER",
+   "evidence_used": [
+    "Inland tariff table: no INL00 for FRLYS-FRLEH",
+    "PL-2026-060 line 1 is the Lyon to Shanghai line"
+   ],
+   "missing_information": [],
+   "response": "Confirmed: the inland tariff table still has no INL00 rate for Lyon (FRLYS) to Le Havre (FRLEH), so Lyon quotes on PL-2026-060 line 1 miss the pre-carriage. Following the inland tariff guide (v1.3), send one request to the inland pricing team (inland-pricing@northwind.example) with the inland point, gateway port, charge code INL00, equipment sizes, the date from which the rate is needed and the affected quotes and tickets (including HC-2026-0009). They load rates within two business days; then recreate the affected Lyon quotes so the inland charge is included.",
+   "sources": [
+    "guide_inland_tariff.md",
+    "inland tariff table FRLYS-FRLEH",
+    "PL-2026-060 line 1"
+   ]
+  },
+  "task": "resolution.decide",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "resolution.decide:b66dbd1f469be2dbb5901c42": {
+  "output": {
+   "confidence": "HIGH",
+   "decision": "ANSWER",
+   "evidence_used": [
+    "QS-10150 expired 2026-10-04",
+    "PL-2026-041 line 10 expired 2026-09-30",
+    "PL-2026-041 line 12 ACTIVE, all-in 2150"
+   ],
+   "missing_information": [],
+   "response": "No. QS-10150 (USD 2,050 per 40HC) expired on 4 Oct 2026 and an expired quote cannot be converted to a booking; it was also built on PL-2026-041 line 10, which expired on 30 Sep. Create a new quote: it will use the current ACTIVE line, PL-2026-041 line 12 (valid until 31 Dec 2026), at 1,850 + BAF 220 + LSS 80 = USD 2,150 all-in per 40HC.",
+   "sources": [
+    "guide_quote_to_booking.md",
+    "rules_price_line_lifecycle.md",
+    "QS-10150",
+    "PL-2026-041 line 12"
+   ]
+  },
+  "task": "resolution.decide",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "resolution.decide:c9f4f233cb38ff2c0bb397c7": {
+  "output": {
+   "confidence": "HIGH",
+   "decision": "ANSWER",
+   "evidence_used": [
+    "PL-2026-047 line 3: EXPIRED, 1950, valid 15 Sep-31 Oct",
+    "PL-2026-047 line 5: ACTIVE, 2100, valid from 1 Nov",
+    "QS-10198 expired 3 Nov; QS-10240 pending until 28 Nov",
+    "charges_included = 1"
+   ],
+   "missing_information": [],
+   "response": "The price went up because the price line changed. QS-10198 (USD 1,950 per 40HC) was built on PL-2026-047 line 3, which was valid until 31 Oct 2026 and has since expired; the quote itself expired on 3 Nov. Since 1 Nov, the ACTIVE line for Marseille to Singapore is PL-2026-047 line 5 at USD 2,100 per 40HC, and the new quote QS-10240 uses it. Both lines belong to an all-in price list, so no surcharge is added: the USD 150 increase is the new base rate. QS-10240 is valid until 28 Nov 2026.",
+   "sources": [
+    "rules_price_line_lifecycle.md",
+    "guide_quote_to_booking.md",
+    "QS-10198",
+    "QS-10240",
+    "PL-2026-047 line 3",
+    "PL-2026-047 line 5"
+   ]
+  },
+  "task": "resolution.decide",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "resolution.decide:cc400e3eff3398bd88935ef1": {
+  "output": {
+   "confidence": "HIGH",
+   "decision": "ANSWER",
+   "evidence_used": [
+    "PL-2026-061 line 4: EXPIRED on 2026-10-31",
+    "PL-2026-061 line 5: ACTIVE, 2000, valid to 2027-01-31, all-in"
+   ],
+   "missing_information": [],
+   "response": "No, PL-2026-061 line 4 (Valencia to Shanghai, USD 1,900 per 40HC) expired on 31 Oct 2026 and can no longer be used for new quotes. The current ACTIVE line is PL-2026-061 line 5, USD 2,000 per 40HC, valid from 1 Nov 2026 to 31 Jan 2027. PL-2026-061 is an all-in price list, so that is the price the customer will see.",
+   "sources": [
+    "rules_price_line_lifecycle.md",
+    "PL-2026-061 line 4",
+    "PL-2026-061 line 5"
+   ]
+  },
+  "task": "resolution.decide",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "resolution.decide:ceb429cf93fa355b7c29c184": {
+  "output": {
+   "confidence": "HIGH",
+   "decision": "ANSWER",
+   "evidence_used": [
+    "PL-2026-049 line 8: 20ST base 1200, BAF 160, LSS 60, all-in 1420",
+    "QS-10236: 20ST at 1420"
+   ],
+   "missing_information": [],
+   "response": "The quote is correct. PL-2026-049 line 8 (ACTIVE, valid 1 Oct to 31 Dec 2026) has a 20ST base rate of USD 1,200. The price list is not all-in, so QuotePort adds the line's surcharges: BAF USD 160 and LSS USD 60. The all-in price is 1,200 + 160 + 60 = USD 1,420 per 20ST, which is the amount on QS-10236.",
+   "sources": [
+    "rules_all_in_vs_base_rate.md",
+    "PL-2026-049 line 8",
+    "QS-10236"
+   ]
+  },
+  "task": "resolution.decide",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "resolution.decide:d13002a4dbaaa680e770ae75": {
+  "output": {
+   "confidence": "HIGH",
+   "decision": "ANSWER",
+   "evidence_used": [
+    "BAF and LSS definitions",
+    "QuotePort shows all-in prices",
+    "All-in price lists"
+   ],
+   "missing_information": [],
+   "response": "BAF (bunker adjustment factor) covers fuel price changes; LSS (low sulphur surcharge) covers the extra cost of low-sulphur fuel required by emission rules. Both are charged per container on top of the base rate. The customer always sees an all-in price in QuotePort, so the line's surcharges are included in the quoted price. On price lists published all-in, the rates already contain every surcharge and nothing is added on top.",
+   "sources": [
+    "rules_all_in_vs_base_rate.md"
+   ]
+  },
+  "task": "resolution.decide",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "resolution.decide:dd40b76bfbd8650991d2f9ec": {
+  "output": {
+   "confidence": "HIGH",
+   "decision": "ANSWER",
+   "evidence_used": [
+    "Missing commodity returns no offer",
+    "Commodity request process and lead time",
+    "Lithium batteries are class 9, HAZ line only"
+   ],
+   "missing_information": [],
+   "response": "QuotePort returns no offer because lithium batteries are not in the commodity list. Send the commodity request form to the commodity data team (commodity-data@northwind.example) with the commodity name, the HS code and the IMO class; lead time is two business days. Lithium batteries are IMO class 9 dangerous goods, so once added they can only be quoted on a HAZ line: a HAZ surcharge applies and a dangerous goods declaration is required before booking.",
+   "sources": [
+    "guide_commodity_list.md",
+    "rules_special_cargo.md"
+   ]
+  },
+  "task": "resolution.decide",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "resolution.decide:fb6cf6115d06947dcbe85272": {
+  "output": {
+   "confidence": "HIGH",
+   "decision": "ANSWER",
+   "evidence_used": [
+    "SOC definition and pricing rationale",
+    "Typical 150-250 USD gap on Le Havre to Shanghai"
+   ],
+   "missing_information": [],
+   "response": "The SOC flag marks a price line for shipper-owned containers: it applies when the customer ships in its own container instead of Northwind equipment (flag added in TideRate 3.2). SOC rates are lower because Northwind does not provide, reposition or maintain the container; on Le Havre to Shanghai the SOC line is usually 150 to 250 USD below the standard 40HC rate. SOC lines only accept general cargo.",
+   "sources": [
+    "rules_special_cargo.md",
+    "release_notes_3_2.md"
+   ]
+  },
+  "task": "resolution.decide",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ },
+ "resolution.decide:fc5ab4046c57a2a29a4d8954": {
+  "output": {
+   "confidence": "HIGH",
+   "decision": "ANSWER",
+   "evidence_used": [
+    "Inland tariff table: no INL00 for FRTLS-FRMRS"
+   ],
+   "missing_information": [],
+   "response": "The inland pricing team adds missing inland rates. The data confirms there is no INL00 pre-carriage rate for Toulouse (FRTLS) to Marseille (FRMRS). Send the request to inland-pricing@northwind.example with the inland point, gateway port, charge code INL00, equipment sizes, the date from which the rate is needed and the affected quotes or tickets. They load it within two business days; once it is valid in the inland tariff table, QuotePort adds it automatically to new quotes.",
+   "sources": [
+    "guide_inland_tariff.md",
+    "inland tariff table FRTLS-FRMRS"
+   ]
+  },
+  "task": "resolution.decide",
+  "usage": {
+   "cache_read_tokens": 0,
+   "cache_write_tokens": 0,
+   "cost_usd": 0.0,
+   "input_tokens": 0,
+   "model": "claude-opus-5-5 via Claude Code",
+   "output_tokens": 0
+  }
+ }
+}

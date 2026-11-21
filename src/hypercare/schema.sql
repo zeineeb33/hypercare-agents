@@ -170,6 +170,8 @@ CREATE TABLE kb_proposals (
     subcategory         TEXT NOT NULL,
     related_ticket_ids  TEXT NOT NULL,  -- JSON array
     target_document     TEXT NOT NULL,
+    question            TEXT NOT NULL,  -- representative ticket question, re-asked by the tests
+    search_queries      TEXT NOT NULL,  -- JSON array, reused when the tests are re-run
     identified_gap      TEXT NOT NULL,
     proposed_title      TEXT NOT NULL,
     proposed_content    TEXT NOT NULL,
@@ -177,6 +179,7 @@ CREATE TABLE kb_proposals (
     sources             TEXT NOT NULL,  -- JSON array
     checks              TEXT NOT NULL,  -- JSON array of pre-publication checks
     status              TEXT NOT NULL DEFAULT 'PENDING' CHECK (status IN ('PENDING', 'APPROVED', 'REJECTED')),
+    revised_at          TEXT,
     reviewed_by         TEXT,
     reviewed_at         TEXT,
     review_comment      TEXT
