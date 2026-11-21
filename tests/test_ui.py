@@ -80,5 +80,8 @@ def test_recorded_demo_answers_drive_the_happy_path(
         next(b for b in at.button if "Run the agents" in b.label).click().run()
         assert not at.exception
         assert any("2,150" in s.value for s in at.success)
+        metrics = {m.label: m.value for m in at.metric}
+        assert metrics["Time"] == "Replay"  # no fake "0.0 s" for replayed answers
+        assert int(metrics["Agent traces"]) > 0  # counters reflect the run that just happened
     finally:
         get_settings.cache_clear()

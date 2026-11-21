@@ -169,10 +169,13 @@ def show_run(run: TicketRun) -> None:
                 f":red-badge[OVERRIDE] The verification agent changed "
                 f"`{run.proposed.decision}` → `{decision}`"
             )
-        c2.metric("Time", f"{run.duration_ms / 1000:.1f} s")
+        replayed = run.cost_usd == 0 and run.input_tokens == 0
+        c2.metric("Time", "Replay" if replayed else f"{run.duration_ms / 1000:.1f} s")
         checks = run.verification.checks if run.verification else []
         c3.metric("Checks", f"{sum(c.passed for c in checks)}/{len(checks)}")
-        c4.metric("Cost", f"${run.cost_usd:.3f}")
+        c4.metric("Cost", "Replay" if replayed else f"${run.cost_usd:.3f}")
+        if replayed:
+            st.caption("Recorded LLM answers: retrieval, SQL and verification ran live just now.")
 
     st.markdown("#### Reply")
     reply = run.final.response
@@ -492,34 +495,13 @@ def system_tab(s: Services) -> None:
 
 def main() -> None:
     s = svc()
-    sidebar(s)
     st.title(":material/support_agent: Hypercare Agents")
     st.markdown(
         ":blue-badge[Multi-agent] :violet-badge[Self-healing KB] "
         ":green-badge[Independent verification] :gray-badge[Claude API]"
     )
     st.caption("Handle hypercare tickets faster and consistently, without ever inventing a price.")
-    stats = (
-        query_one(
-            s.conn,
-            "SELECT (SELECT COUNT(*) FROM tickets) AS tickets, (SELECT COUNT(*) FROM kb_documents) AS docs, "
-            "(SELECT COUNT(*) FROM kb_proposals WHERE status = 'PENDING') AS pending, "
-            "(SELECT COUNT(*) FROM agent_traces) AS traces",
-        )
-        or {}
-    )
-    cols = st.columns(4)
-    for col, (label, key) in zip(
-        cols,
-        [
-            ("Tickets", "tickets"),
-            ("KB documents", "docs"),
-            ("Pending KB proposals", "pending"),
-            ("Agent traces", "traces"),
-        ],
-        strict=True,
-    ):
-        col.metric(label, stats.get(key, 0), border=True)
+    stats_area = st.container()  # filled at the end, after any run in this rerun
 
     tabs = st.tabs(
         [
@@ -540,6 +522,29 @@ def main() -> None:
         evaluation_tab()
     with tabs[4]:
         system_tab(s)
+
+    sidebar(s)  # drawn last so it reflects the run that just happened
+    stats = (
+        query_one(
+            s.conn,
+            "SELECT (SELECT COUNT(*) FROM tickets) AS tickets, (SELECT COUNT(*) FROM kb_documents) AS docs, "
+            "(SELECT COUNT(*) FROM kb_proposals WHERE status = 'PENDING') AS pending, "
+            "(SELECT COUNT(*) FROM agent_traces) AS traces",
+        )
+        or {}
+    )
+    cols = stats_area.columns(4)
+    for col, (label, key) in zip(
+        cols,
+        [
+            ("Tickets", "tickets"),
+            ("KB documents", "docs"),
+            ("Pending KB proposals", "pending"),
+            ("Agent traces", "traces"),
+        ],
+        strict=True,
+    ):
+        col.metric(label, stats.get(key, 0), border=True)
 
 
 if __name__ == "__main__":  # streamlit runs the script as __main__
